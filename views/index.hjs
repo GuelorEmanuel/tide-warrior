@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>{{ title }}</title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+
+  </head>
+
+  <body>
+
+    <h1>Where are you?</h1>
+
+    <form action="/find-location" method="post">
+        <input class="text" type="text" name="location" placeholder="e.g 12 three street, four, lagos" size="50">
+        <input type="submit" value="Find">
+    </form>
+    
+  </body>
+
+</html>
