@@ -7,6 +7,7 @@ var _ = require('underscore');
 
 var location = null;
 var radius = null;
+var key = null;
 
 var places_types =  [
     'accounting',
@@ -118,7 +119,7 @@ function getLocations(type) {
 	   location: location.A+","+location.F,
 	   radius: radius,
 	   types: [type],
-	   key: 'AIzaSyDHiv6baa-nwdrutWFWqhs3ZRsQcPcxhyI'
+	   key: key
 	}
 
 	needle.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+querystring.stringify(google_places_options), options,
@@ -151,6 +152,7 @@ http
 		if (query.location) {
 			location = JSON.parse(query.location);
 			radius = query.radius;
+            key = query.key;
 			html += 'The server is now getting the places.\n \
 					 Please check the \'places\' directory on your local machine';
 		}
@@ -158,10 +160,12 @@ http
 			// Lagos : 6.5482201,3.3975005
 			location = null;
 			radius = null;
+            key = null;
 			html += (function() {/*
 						Lat: <input id="lat" class="text" type="text">
 						Lng: <input id="lng" class="text" type="text">
 						Radius: <input id="radius" class="text" type="text">
+                        Google Places API Key: <input id="key" class="text" type="text">
 						<input type="button" value="Get Places" onclick="resolve()">
 						<script src="https://maps.googleapis.com/maps/api/js?libraries=places">
 						</script>
@@ -170,8 +174,9 @@ http
 								var lat = document.getElementById("lat").value;
 								var lng = document.getElementById("lng").value;
 								var rad = document.getElementById("radius").value;
+                                var key = document.getElementById("key").value;
 								obj = new google.maps.LatLng(lat,lng);
-								window.location.href = window.location.href + "?location="+JSON.stringify(obj)+"&radius="+rad;
+								window.location.href = window.location.href + "?location="+JSON.stringify(obj)+"&radius="+rad+"&key="+key;
 							}
 						</script>
 					*/}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
@@ -181,7 +186,7 @@ http
 		response.write(html);
 		response.end();
 
-		if (location != null) {
+		if (location != null && key != null) {
 			_.each(places_types, getLocations);
 		}
 	})

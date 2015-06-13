@@ -1,0 +1,21 @@
+{
+  "name": "locations",
+  "version": "0.0.0",
+  "description": "get list of places from google places api",
+  "main": "find_locations.js",
+  "dependencies": {
+    "needle": "~0.9.2",
+    "underscore": "~1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "location",
+    "places",
+    "google places"
+  ],
+  "author": "Ibrahim Sikiru <ibrahimsikiru@cmail.carleton.ca>",
+  "license":
+}
