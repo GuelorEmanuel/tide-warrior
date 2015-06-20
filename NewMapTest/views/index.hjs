@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html ng-app="TideWarrior">
+
+	<head>
+		{{> head }}
+	</head>
+
+  	<body>
+
+  		{{> navigation }}
+
+  	</body>
+
+</html>

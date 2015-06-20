@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="TideWarrior">
+
+	<head>
+		{{> head }}
+		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
+		<link href='//mapbox.com/base/latest/base.css' rel='stylesheet'>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	  	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	  	<link href='/stylesheets/map-style.css' rel='stylesheet'>
+	  	<script src="/javascripts/map-script.js" type="text/javascript"></script>
+	</head>
+
+  	<body>
+
+		<div id='map'></div>
+
+		<div class='input-pill'>
+		  <input class="col8" type="text" placeholder="enter current location">
+		  <input class="button col4" type="submit" value="Show">
+		</div>
+
+		<script>
+			var pin_location = null;
+
+			var map_center = {};
+			map_center.latitude = 6.4531;
+			map_center.longitude = 3.3958;
+			map_center.zoom = 13;
+
+			{{# marker }}
+			pin_location = {};
+			pin_location.latitude = {{ marker.latitude }};
+			pin_location.longitude = {{ marker.longitude }};
+			{{# marker.properties }}
+			pin_location.properties.name = '{{ marker.properties.name }}';
+			pin_location.properties.description = '{{ marker.properties.description }}';
+			pin_location.properties.symbol = '{{ marker.properties.symbol }}';
+			{{/ marker.properties }}
+			map_center.zoom = 16;
+			{{/ marker }}
+
+			$(function() {
+				drawMap(map_center, pin_location);
+			});
+
+		</script>
+
+	</body>
+
+</html>
