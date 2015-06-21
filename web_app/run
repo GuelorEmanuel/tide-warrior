@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-npm install && npm start
-
-if [[ "`echo $?`" -ne 0 ]]; then
-    nodemon ./bin/www
-fi
