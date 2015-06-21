@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="TideWarrior">
+<html ng-app="MainApp">
 
 	<head>
 		{{> head }}
@@ -8,6 +8,9 @@
   	<body>
 
   		{{> navigation }}
+
+  		{{> scripts }}
+  		<script src="/javascripts/main-app.js" type="text/javascript"></script>
 
   	</body>
 

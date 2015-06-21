@@ -5,7 +5,8 @@ router.get('/', function(req, res, next) {
 	res.render('map-view', { 
 		title: 'Tide-Warrior',
 		partials: {
-			head: 'partials/head'
+			head: 'partials/head',
+			scripts: 'partials/scripts'
 		}
 	});
 });
@@ -18,7 +19,8 @@ router.get('/:lat/:lng', function(req, res, next) {
 			longitude: req.params.lng
 		},
 		partials: {
-			head: 'partials/head'
+			head: 'partials/head',
+			scripts:  'partials/scripts'
 		}
 	});
 });
