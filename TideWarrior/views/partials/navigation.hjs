@@ -1,18 +1,21 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
 
-
   <div class="container-fluid">
     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+         <span class="sr-only">Toggle navigation</span>
+         <span class="glyphicon glyphicon-menu-hamburger"></span>
+      </button>
       <a class="navbar-brand" href="/">
       	{{ title }}
       </a>
     </div>
 
-    <div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="/map"><span class="glyphicon glyphicon-map-marker glyphicon-white"> Map</a></li>
-        <li><a href="/places"><span class="glyphicon glyphicon-calendar glyphicon-white"> Places</a></li>
-        <li><a href="/events"><span class="glyphicon glyphicon-bullhorn glyphicon-white"> Events</a></li>
+        <li><a href="/map"><span class="glyphicon glyphicon-map-marker"> Map</a></li>
+        <li><a href="/#/places"><span class="glyphicon glyphicon-calendar"> Places</a></li>
+        <li><a href="/#/events"><span class="glyphicon glyphicon-bullhorn"> Events</a></li>
       </ul>
     </div>
 

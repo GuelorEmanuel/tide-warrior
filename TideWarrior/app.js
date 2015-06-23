@@ -9,6 +9,8 @@ var api = require('./routes/api');
 var index = require('./routes/index');
 var map = require('./routes/map');
 
+var config = require('./config.js');
+
 var app = express();
 
 // view engine setup

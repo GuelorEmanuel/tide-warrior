@@ -5,22 +5,25 @@
 		{{> head }}
 		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
-		<link href='//mapbox.com/base/latest/base.css' rel='stylesheet'>
-	  	<link href='/stylesheets/map-style.css' rel='stylesheet'>
+		<link href='https://mapbox.com/base/latest/base.css' rel='stylesheet'>
+	  	<link href='/css/map-style.css' rel='stylesheet'>
 	</head>
 
   	<body>
 
 		<div id='map'></div>
 
-		<div class='input-pill'>
-		  <input class="col8" type="text" placeholder="enter current location">
-		  <input class="button col4" type="submit" value="Show">
+		<div class='top-bar'>
+		    <div class="input-pill">
+		    	<input class="col8" type="text" placeholder="Address">
+		    	<input class="button col4" type="submit" value="Show">
+		    </div>
+		    {{> navigation }}
 		</div>
 
 	  	{{> scripts }}
-	  	<script src="/javascripts/map-app.js" type="text/javascript"></script>
-	  	<script src="/javascripts/map-script.js" type="text/javascript"></script>
+	  	<script src="/js/map-app.js" type="text/javascript"></script>
+	  	<script src="/js/map-script.js" type="text/javascript"></script>
 
 		<script>
 			var pin_location = null;
