@@ -11,15 +11,21 @@
 
   	<body>
 
-		<div id='map'></div>
+		<div id="main">
 
-		<div class='top-bar'>
-		    <div class="input-pill">
-		    	<input class="col8" type="text" placeholder="Address">
-		    	<input class="button col4" type="submit" value="Show">
-		    </div>
-		    {{> navigation }}
+			<div id='map'></div>
+
+			<div class='top-bar'>
+			    {{> navigation }}
+			    <div class="input-pill">
+			    	<input class="col8" type="text" placeholder="Address">
+			    	<input class="button col4" type="submit" value="Show">
+			    </div>
+			</div>
+
 		</div>
+
+		{{> footer }}
 
 	  	{{> scripts }}
 	  	<script src="/modules/map-app/app.js"></script>
@@ -47,7 +53,7 @@
 
 			$(function() {
 				drawMap(
-					'{{ config.map.accessToken }}',
+					'{{ accessToken }}',
 					map_center,
 					pin_location
 				);

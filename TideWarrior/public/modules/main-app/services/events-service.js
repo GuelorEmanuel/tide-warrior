@@ -1,13 +1,13 @@
 // This is not a redeclaration. Just referencing the mainApp module
 var mainApp = angular.module('mainApp');
 
-mainApp.factory('PlacesService', [
+mainApp.factory('EventsService', [
 	'$http',
 	function($http) {
 		var service = {};
 
-		service.getAllPlaces = function(callback) {
-			$http.get('/api/places/json')
+		service.getAllEvents = function(callback) {
+			$http.get('/api/events/json')
 				.error(function() {
 					callback({errorMessage: "no response from server"});
 				})

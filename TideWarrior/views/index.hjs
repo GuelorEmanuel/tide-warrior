@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html ng-app="mainApp">
 
-	<head>
-		{{> head }}
-  		<script src="/modules/main-app/app.js"></script>
-  		<script src="/modules/main-app/controllers/homepage-controller.js"></script>
-      <script src="/modules/main-app/controllers/places-controller.js"></script>
-      <script src="/modules/main-app/controllers/events-controller.js"></script>
-      <script src="/modules/main-app/services/places-controller.js"></script>
-	</head>
+  	<head>
+    		{{> head }}
+    		<script src="/modules/main-app/app.js"></script>
+    		<script src="/modules/main-app/controllers/homepage-controller.js"></script>
+        <script src="/modules/main-app/controllers/places-controller.js"></script>
+        <script src="/modules/main-app/controllers/events-controller.js"></script>
+        <script src="/modules/main-app/services/places-service.js"></script>
+        <script src="/modules/main-app/services/events-service.js"></script>
+  	</head>
 
-  	<body>
+    <body>
 
-  		{{> navigation }}
+        <div id="main">
 
-  		<div class="container" ng-view></div>
+            {{> navigation }}
 
-  		{{> scripts }}
+          	<div class="container" ng-view ng-style="{ 'margin-top': '60px' }"></div>
 
-  	</body>
+        </div>
+
+        {{> footer }}
+
+      	{{> scripts }}
+
+    </body>
 
 </html>

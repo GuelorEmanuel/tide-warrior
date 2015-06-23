@@ -3,7 +3,16 @@ var mainApp = angular.module('mainApp');
 
 mainApp.controller('EventsController', [
 	'$scope',
-	function($scope) {
-
+	'EventsService',
+	function($scope, EventsService) {
+		EventsService.getAllEvents(function(err, data) {
+			if (err) {
+				$scope.error = true;
+				$scope.errorMessage = err.errorMessage;
+			}
+			else {
+				$scope.events = data;
+			}
+		});
 	}
 ]);

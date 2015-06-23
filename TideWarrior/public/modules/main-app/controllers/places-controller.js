@@ -3,7 +3,16 @@ var mainApp = angular.module('mainApp');
 
 mainApp.controller('PlacesController', [
 	'$scope',
-	function($scope) {
-
+	'PlacesService',
+	function($scope, PlacesService) {
+		PlacesService.getAllPlaces(function(err, data) {
+			if (err) {
+				$scope.error = true;
+				$scope.errorMessage = err.errorMessage;
+			}
+			else {
+				$scope.categories = data;
+			}
+		});
 	}
 ]);

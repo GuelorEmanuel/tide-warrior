@@ -5,11 +5,11 @@ var config = require('../config.js');
 
 router.get('/', function(req, res, next) {
 	res.render('index', {
-		config: config,
-	  	title: 'Tide-Warrior',
+	  	title: config.appName,
 	  	partials: {
 	  		head: 'partials/head',
 	  		navigation: 'partials/navigation',
+	  		footer: 'partials/footer',
 	  		scripts:  'partials/scripts'
 	  	}
 	});

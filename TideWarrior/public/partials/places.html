@@ -1,1 +1,24 @@
-<p>TODO: Places page</p>
+<div class="container">
+
+	<div class="input-group">
+        <input type="text" class="form-control search-form" placeholder="Search" ng-model="query">
+    </div>
+
+	<div class="error" ng-show="error">
+		<p class="text-danger">Server says: {{ errorMessage }}</p>
+	</div>
+
+	<div class="search-result">
+		<div class="empty-search" ng-show="!error && !categories.length">
+			<p class="text-info">No result matches your search</p>
+		</div>
+		<div class="places-result">
+			<ul>
+				<li ng-repeat="category in categories | filter:query">
+					{{ category }}
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</div>

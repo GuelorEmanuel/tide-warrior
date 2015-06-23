@@ -8,15 +8,15 @@ mainApp.config(['$routeProvider',
     	$routeProvider.
       		when('/', {
         		templateUrl: 'partials/home.html',
-        		controller: 'HomepageCtrl'
+        		controller: 'HomepageController'
       		}).
       		when('/events', {
         		templateUrl: 'partials/events.html',
-        		controller: 'EventsCtrl'
+        		controller: 'EventsController'
       		}).
       		when('/places', {
         		templateUrl: 'partials/places.html',
-        		controller: 'PlacesCtrl'
+        		controller: 'PlacesController'
       		}).
       		otherwise({
         		redirectTo: '/'
