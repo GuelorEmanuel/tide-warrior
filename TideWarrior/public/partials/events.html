@@ -9,17 +9,20 @@
 	</div>
 
 	<div class="search-result">
-		<!-- Only show this if the search result is empty -->
-		<div class="empty-search" ng-show="!error && !events.length">
-			<p class="text-info">No result matches your search</p>
-		</div>
 		<!-- The actual results -->
 		<div class="places-result">
 			<ul>
-				<li ng-repeat="event in events | filter:query">
-					{{ event.name }}
+				<li ng-repeat="event in filtered = (events | filter:query)">
+					What?: {{ event.name }} - When?: {{ event.date | date }} -
+					<a href="/map/{{event.latitude}}/{{event.longitude}}">
+						Where?
+					</a>
 				</li>
 			</ul>
+		</div>
+		<!-- Only show this if the search result is empty -->
+		<div class="empty-search" ng-show="!error && !filtered.length">
+			<p class="text-info">No result matches your search</p>
 		</div>
 	</div>
 </div>

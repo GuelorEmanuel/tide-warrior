@@ -19,10 +19,16 @@
     display: inline-block;
 }
 
+.input-pill {
+    width: 70%;
+    float: right;
+}
+
 .input-pill .button {
-	max-width: 20%;
+    max-width: 20%;
 }
 
 .dropdown {
-	float: right;
+    max-width: 10%;
+    float: left;
 }

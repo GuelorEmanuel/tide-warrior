@@ -10,17 +10,25 @@
 	</div>
 
 	<div class="search-result">
-		<!-- Only show this if the search result is empty -->
-		<div class="empty-search" ng-show="!error && !categories.length">
-			<p class="text-info">No result matches your search</p>
-		</div>
 		<!-- The actual results -->
 		<div class="places-result">
 			<ul>
-				<li ng-repeat="category in categories | filter:query">
-					{{ category }}
+				<li ng-repeat="category in filtered = (categories | filter:query)">
+					{{ category.name }}
+					<ul>
+						<li ng-repeat="place in category.places | filter:query">
+							{{ place.name }} - {{ place.address }}
+							<a href="/map/{{ place.latitude }}/{{ place.longitude }}">
+								View
+							</a>
+						</li>
+					</ul>
 				</li>
 			</ul>
+		</div>
+		<!-- Only show this if the search result is empty -->
+		<div class="empty-search" ng-show="!error && !filtered.length">
+			<p class="text-info">No result matches your search</p>
 		</div>
 	</div>
 
