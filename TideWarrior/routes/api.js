@@ -5,11 +5,25 @@ var config = require('../config.js');
 var fs = require('fs');
 var _ = require('underscore');
 
+/* This provides a sort of api for us to pass data from the
+ * backend to the front end (and vice versa), without caring
+ * about how the data is stored
+ * The beauty of this is, this code will definately change very soon,
+ * when we start using a database or whatever we go with, but the front
+ * end doesn't have to, as long as we keep the response data similar
+ */
+
 router.get('/places/:filetype', function(req, res, next) {
 	var apiResponse = {};
+	// we might want to extend this to also serve xml or whatever
 	if (req.params.filetype.toLowerCase() == 'json') {
 		apiResponse.results = [];
 		var places_dir = process.env.PWD + '/places/';
+		/* right now, it just reads all the files in the
+		 * places directory and makes a response from the necessary fields
+		 * this is just here for demo right now
+		 * we need to change this
+		 */
 		fs.readdir(places_dir, function(err, files){
 		    if (err) {
 		    	apiResponse.responseStatus = "error";
@@ -56,6 +70,9 @@ router.get('/places/:filetype', function(req, res, next) {
 });
 
 router.get('/events/:filetype', function(req, res, next) {
+	/* similar to the places api. Just using a randomly generated data
+	*  well.... not so random
+	*/
 	var apiResponse = {};
 	if (req.params.filetype.toLowerCase() == 'json') {
 		apiResponse.responseStatus = "success";

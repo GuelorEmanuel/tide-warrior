@@ -3,18 +3,21 @@
         <input type="text" class="form-control search-form" placeholder="Search" ng-model="query">
     </div>
 
+    <!-- Only show this if theres an error -->
 	<div class="error" ng-show="error">
 		<p class="text-danger">Server says: {{ errorMessage }}</p>
 	</div>
 
 	<div class="search-result">
+		<!-- Only show this if the search result is empty -->
 		<div class="empty-search" ng-show="!error && !events.length">
 			<p class="text-info">No result matches your search</p>
 		</div>
+		<!-- The actual results -->
 		<div class="places-result">
 			<ul>
 				<li ng-repeat="event in events | filter:query">
-					{{ event }}
+					{{ event.name }}
 				</li>
 			</ul>
 		</div>
