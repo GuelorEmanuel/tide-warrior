@@ -1,5 +1,5 @@
-var drawMap = function (map_center, pin_location) {
-	L.mapbox.accessToken = 'pk.eyJ1IjoiY2h1a3p6eSIsImEiOiJlMDRiNjNlNGJmMmE1NDc1MGNlMWRlNDYxYjdlNzllYiJ9.HIP8SZFPE4VHvgvGb1LDZg';
+var drawMap = function (accessToken, map_center, pin_location) {
+	L.mapbox.accessToken = accessToken;
 	var map = L.mapbox.map('map', 'chukzzy.mdcmd242') .setView([map_center.latitude, map_center.longitude], map_center.zoom);
 
 	if (pin_location) {

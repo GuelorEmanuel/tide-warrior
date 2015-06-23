@@ -13,9 +13,9 @@
 
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="/map"><span class="glyphicon glyphicon-map-marker"> Map</a></li>
-        <li><a href="/#/places"><span class="glyphicon glyphicon-calendar"> Places</a></li>
-        <li><a href="/#/events"><span class="glyphicon glyphicon-bullhorn"> Events</a></li>
+        <li data-toggle="collapse" data-target=".in"><a href="/map"><span class="glyphicon glyphicon-map-marker"> Map</a></li>
+        <li data-toggle="collapse" data-target=".in"><a href="/#/places"><span class="glyphicon glyphicon-calendar"> Places</a></li>
+        <li data-toggle="collapse" data-target=".in"><a href="/#/events"><span class="glyphicon glyphicon-bullhorn"> Events</a></li>
       </ul>
     </div>
 

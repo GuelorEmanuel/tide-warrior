@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="MapApp">
+<html ng-app="mapApp">
 
 	<head>
 		{{> head }}
@@ -22,8 +22,8 @@
 		</div>
 
 	  	{{> scripts }}
-	  	<script src="/js/map-app.js" type="text/javascript"></script>
-	  	<script src="/js/map-script.js" type="text/javascript"></script>
+	  	<script src="/modules/map-app/app.js"></script>
+	  	<script src="/js/map-script.js"></script>
 
 		<script>
 			var pin_location = null;
@@ -46,7 +46,11 @@
 			{{/ marker }}
 
 			$(function() {
-				drawMap(map_center, pin_location);
+				drawMap(
+					'{{ config.map.accessToken }}',
+					map_center,
+					pin_location
+				);
 			});
 
 		</script>
