@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="mapApp">
+<html ng-app="TideWarrior">
 
 	<head>
 		{{> head }}
@@ -29,12 +29,6 @@
 		  <input class="button col4" type="submit" value="Show">
 		</div> -->
 
-		{{> footer }}
-
-	  	{{> scripts }}
-	  	<script src="/modules/map-app/app.js"></script>
-	  	<script src="/js/map-script.js"></script>
-
 		<script>
 			var pin_location = null;
 
@@ -56,11 +50,7 @@
 			{{/ marker }}
 
 			$(function() {
-				drawMap(
-					'{{ accessToken }}',
-					map_center,
-					pin_location
-				);
+				drawMap(map_center, pin_location);
 			});
 
 		</script>
