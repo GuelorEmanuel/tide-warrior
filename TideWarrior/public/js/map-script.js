@@ -1,6 +1,30 @@
-var drawMap = function (accessToken, map_center, pin_location) {
-	L.mapbox.accessToken = accessToken;
-	var map = L.mapbox.map('map', 'chukzzy.mdcmd242') .setView([map_center.latitude, map_center.longitude], map_center.zoom);
+var drawMap = function (map_center, pin_location) {
+	L.mapbox.accessToken = 'pk.eyJ1IjoibmNzdGVjaDA3IiwiYSI6ImQyYTM3YzU3YmU1Mzk0MTYyYWFmYTg0N2VlYjkyZjVmIn0.TRjK4m5ljWCYsQzo5nncyg';
+	var map = L.mapbox.map('map', 'ncstech07.0dd6e771') .setView([map_center.latitude, map_center.longitude], map_center.zoom).addControl(L.mapbox.geocoderControl('mapbox.places', {
+		autocomplete: true
+	}));
+
+	// move the attribution control out of the way
+	map.attributionControl.setPosition('bottomleft');
+
+	// create the initial directions object, from which the layer
+	// and inputs will pull data.
+	var directions = L.mapbox.directions();
+
+	var directionsLayer = L.mapbox.directions.layer(directions)
+	.addTo(map);
+
+	var directionsInputControl = L.mapbox.directions.inputControl('inputs', directions)
+	.addTo(map);
+
+	var directionsErrorsControl = L.mapbox.directions.errorsControl('errors', directions)
+	.addTo(map);
+
+	var directionsRoutesControl = L.mapbox.directions.routesControl('routes', directions)
+	.addTo(map);
+
+	var directionsInstructionsControl = L.mapbox.directions.instructionsControl('instructions', directions)
+	.addTo(map);
 
 	if (pin_location) {
 		var marker_properties = {
