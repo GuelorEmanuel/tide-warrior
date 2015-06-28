@@ -11,18 +11,23 @@
 
 	<div class="search-result">
 		<!-- The actual results -->
-		<div class="places-result">
+		<div class="places-result" ng-show="!olyPlace">
 			<ul>
 				<li ng-repeat="category in filtered = (categories | filter:query)">
-					{{ category.name }}
-					<ul>
-						<li ng-repeat="place in category.places | filter:query">
-							{{ place.name }} - {{ place.address }}
-							<a href="/map/{{ place.latitude }}/{{ place.longitude }}">
-								View
-							</a>
-						</li>
-					</ul>
+					<a ng-click="showMe(category.name)">
+						{{ category.name }}
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="place-result">
+			<ul>
+				<li ng-repeat="place in placeInfo.places">
+					{{ place.name }} - {{ place.address }}
+					<a href="/map/{{ place.latitude }}/{{ place.longitude }}">
+						View
+					</a>
 				</li>
 			</ul>
 		</div>

@@ -18,5 +18,18 @@ mainApp.controller('PlacesController', [
 				$scope.categories = data;
 			}
 		});
+
+		$scope.showMe = function(place) {
+			PlacesService.getPlace(place, function(err, data) {
+				if (err) {
+					$scope.error = true;
+					$scope.errorMessage = err.errorMessage;
+				}
+				else {
+					$scope.placeInfo = data;
+					$scope.olyPlace = true;
+				}
+			});
+		}
 	}
 ]);

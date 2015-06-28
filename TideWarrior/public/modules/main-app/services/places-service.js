@@ -33,6 +33,23 @@ mainApp.factory('PlacesService', [
 				});
 		}
 
+		service.getPlace = function(place, callback) {
+			$http.get('/api/place/'+place.toLowerCase()+'/json')
+				.error(function() {
+					callback({errorMessage: "no response from server"});
+				})
+				.success(function(data) {
+					// if there is no data or the response status in the data says error
+					if (!data || data.responseStatus == "error") {
+						callback({errorMessage: data.errorMessage ||
+							"empty response from server" });
+					}
+					else {
+						callback(null, data.results);
+					}
+				});
+		}
+
 		return service;
 	}
 ]);

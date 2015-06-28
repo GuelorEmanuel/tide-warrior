@@ -13,8 +13,8 @@ var _ = require('underscore');
  * end doesn't have to, as long as we keep the response data similar
  */
 
-router.get('/places/:filetype', function(req, res, next) {
-	var apiResponse = {};
+ router.get('/places/:filetype', function(req, res, next) {
+ 	var apiResponse = {};
 	// we might want to extend this to also serve xml or whatever
 	if (req.params.filetype.toLowerCase() == 'json') {
 		apiResponse.results = [];
@@ -24,43 +24,43 @@ router.get('/places/:filetype', function(req, res, next) {
 		 * this is just here for demo right now
 		 * we need to change this
 		 */
-		fs.readdir(places_dir, function(err, files){
-		    if (err) {
-		    	apiResponse.responseStatus = "error";
-				apiResponse.errorMessage = "error accessing database";
-				res.json(apiResponse);
-				return;
-		    }
+		 fs.readdir(places_dir, function(err, files){
+		 	if (err) {
+		 		apiResponse.responseStatus = "error";
+		 		apiResponse.errorMessage = "error accessing database";
+		 		res.json(apiResponse);
+		 		return;
+		 	}
 
-		    var semaphore = 0;
-			apiResponse.responseStatus = "success";
-		    _.each(files, function(file){
-		    	++semaphore;
-		        fs.readFile(places_dir+file,'utf8',function(err, data){
-		        	--semaphore;
-		        	if (!err) {
-		        		var entry= {};
-		        		entry.name = (file.charAt(0).toUpperCase() +
-		        					 file.slice(1, -5)).replace("_"," ");
-			            var jsonObj = JSON.parse(data);
-			            entry.places = [];
-			            _.each(jsonObj.results, function(info) {
-			            	var useful_info = {};
-			            	useful_info.latitude = info.geometry.location.lat;
-			            	useful_info.longitude = info.geometry.location.lng;
-			            	useful_info.name = info.name;
-			            	useful_info.tags = info.types;
-			            	useful_info.address = info.vicinity;
-			            	entry.places.push(useful_info);
-			            });
-			            apiResponse.results.push(entry);
-			        }
-			        if (semaphore === 0) {
-			        	res.json(apiResponse);
-			        }
-		        });
-		    });
-		});
+		 	var semaphore = 0;
+		 	apiResponse.responseStatus = "success";
+		 	_.each(files, function(file){
+		 		++semaphore;
+		 		fs.readFile(places_dir+file,'utf8',function(err, data){
+		 			--semaphore;
+		 			if (!err) {
+		 				var entry= {};
+		 				entry.name = (file.charAt(0).toUpperCase() +
+		 					file.slice(1, -5)).replace("_"," ");
+		 				var jsonObj = JSON.parse(data);
+		 				entry.places = [];
+		 				_.each(jsonObj.results, function(info) {
+		 					var useful_info = {};
+		 					useful_info.latitude = info.geometry.location.lat;
+		 					useful_info.longitude = info.geometry.location.lng;
+		 					useful_info.name = info.name;
+		 					useful_info.tags = info.types;
+		 					useful_info.address = info.vicinity;
+		 					entry.places.push(useful_info);
+		 				});
+		 				apiResponse.results.push(entry);
+		 			}
+		 			if (semaphore === 0) {
+		 				res.json(apiResponse);
+		 			}
+		 		});
+		 	});
+		 });
 	}
 	else {
 		apiResponse.responseStatus = "error";
@@ -98,6 +98,48 @@ router.get('/events/:filetype', function(req, res, next) {
 				});
 			}
 		})
+	}
+	else {
+		apiResponse.responseStatus = "error";
+		apiResponse.errorMessage = "requested data type not supported";
+		res.json(apiResponse);
+	}
+});
+
+router.get('/place/:placetype/:filetype', function(req, res, next) {
+	var apiResponse = {};
+	// we might want to extend this to also serve xml or whatever
+	if (req.params.filetype.toLowerCase() == 'json') {
+		apiResponse.results = {};
+		var places_dir = process.env.PWD + '/places/';
+		/* right now, it just reads all the files in the
+		 * places directory and makes a response from the necessary fields
+		 * this is just here for demo right now
+		 * we need to change this
+		 */
+		 fs.readFile(places_dir+req.params.placetype+".json",'utf8',function(err, data){
+		 	if (!err) {
+		 		var results = apiResponse.results;
+		 		results.name = req.params.placetype;
+		 		var jsonObj = JSON.parse(data);
+		 		results.places = [];
+		 		_.each(jsonObj.results, function(info) {
+		 			var useful_info = {};
+		 			useful_info.latitude = info.geometry.location.lat;
+		 			useful_info.longitude = info.geometry.location.lng;
+		 			useful_info.name = info.name;
+		 			useful_info.tags = info.types;
+		 			useful_info.address = info.vicinity;
+		 			results.places.push(useful_info);
+		 		});
+			 	res.json(apiResponse);
+		 	}
+		 	else {
+				apiResponse.responseStatus = "error";
+				apiResponse.errorMessage = "requested place type not supported";
+				res.json(apiResponse);
+			}
+		 });
 	}
 	else {
 		apiResponse.responseStatus = "error";

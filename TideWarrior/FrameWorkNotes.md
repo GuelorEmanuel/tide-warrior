@@ -4,8 +4,8 @@
     NodeJS => running a server
     npm => managing packages installed on server
     bower => managing client-side frameworks
-    nodemon (optional) => tracking file changes and automatically restarting the server
     git => version control
+    github => version control
     browser => get familiar with Developer Tools on you browser
     
 ### Run:
