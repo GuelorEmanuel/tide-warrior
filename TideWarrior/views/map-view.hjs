@@ -6,6 +6,8 @@
 		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
 		<link href='https://mapbox.com/base/latest/base.css' rel='stylesheet'>
+		<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.js'></script>
+		<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.css' type='text/css' />
 	  	<link href='/css/map-style.css' rel='stylesheet'>
 	</head>
 
@@ -14,11 +16,17 @@
 		<div id="main">
 
 			<div id='map'></div>
+			<div id='inputs'></div>
+			<div id='errors'></div>
+			<div id='directions'>
+			  <div id='routes'></div>
+			  <div id='instructions'></div>
+			</div>
 
 			<div class='top-bar'>
 			    {{> navigation }}
 			    <div class="input-pill">
-			    	<input class="col8" type="text" placeholder="Address">
+			    	<input class="col8" type="text" placeholder="Enter address">
 			    	<input class="button col4" type="submit" value="Show">
 			    </div>
 			</div>
@@ -50,6 +58,16 @@
 			{{/ marker.properties }}
 			map_center.zoom = 16;
 			{{/ marker }}
+
+			// If I hit the enter button set the instruction water mark visible
+			/*$(function(){
+ 				$("#inputs").keypress(function (e) {
+    				if (e.keyCode == 13 ) {
+        				var inputDiv = document.getElementById('directions');
+						inputDiv.style.visibility = 'visible';
+    				}
+ 				});
+			});*/
 
 			$(function() {
 				drawMap(

@@ -1,6 +1,23 @@
 var drawMap = function (accessToken, map_center, pin_location) {
 	L.mapbox.accessToken = accessToken;
-	var map = L.mapbox.map('map', 'chukzzy.mdcmd242') .setView([map_center.latitude, map_center.longitude], map_center.zoom);
+	var map = L.mapbox.map('map', 'chukzzy.mj252lbf', { zoomControl: false }) .setView([map_center.latitude, map_center.longitude], map_center.zoom);
+
+	new L.Control.Zoom({ position: 'topright'  }).addTo(map);
+
+
+
+	var directions = L.mapbox.directions(),
+    directionsLayer = L.mapbox.directions.layer(directions).addTo(map),
+    directionsInputControl = L.mapbox.directions.inputControl('inputs', directions).addTo(map),
+    directionsErrorsControl = L.mapbox.directions.errorsControl('errors', directions).addTo(map),
+    directionsRoutesControl = L.mapbox.directions.routesControl('routes', directions).addTo(map),
+    directionsInstructionsControl = L.mapbox.directions.instructionsControl('instructions', directions).addTo(map);
+
+
+	// Come back to this later and figure it out
+	/*var inputDiv = document.getElementById('directions');
+	inputDiv.style.visibility = 'hidden';*/
+	    
 
 	if (pin_location) {
 		var marker_properties = {
