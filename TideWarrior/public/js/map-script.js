@@ -3,8 +3,7 @@ var drawMap = function (accessToken, map_center, pin_location) {
 	var map = L.mapbox.map('map', 'chukzzy.mj252lbf', { zoomControl: false }) .setView([map_center.latitude, map_center.longitude], map_center.zoom);
 
 	new L.Control.Zoom({ position: 'topright'  }).addTo(map);
-
-
+	new L.control.locate({ position: 'topright'}).addTo(map);
 
 	var directions = L.mapbox.directions(),
     directionsLayer = L.mapbox.directions.layer(directions).addTo(map),

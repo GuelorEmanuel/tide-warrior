@@ -22,9 +22,12 @@
     * Show line from one point to another point on the map
     * Give information on how to navigate to the place
 
+## As a user , I would like my location to be automatically detected
+    * If I click a button detect my current location.
+
 ==> #### As a group, we have to handle finances
 ==> #### As a development team, we need to set up a database to hold all information
-#### As a user , I would like my location to be automatically detected
+==> #### As a user , I would like my location to be automatically detected
 ==> #### As a user, I would like to be able get direction from one place to another, using the map
 ==> #### As a user, I want my search term to be auto completed
 #### As development team, we have to decide how to populate the events section
