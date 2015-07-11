@@ -3,7 +3,6 @@ var router = express.Router();
 
 var config = require('../config.js');
 var fs = require('fs');
-var _ = require('underscore');
 
 /* This provides a sort of api for us to pass data from the
  * backend to the front end (and vice versa), without caring
@@ -34,7 +33,7 @@ var _ = require('underscore');
 
 		 	var semaphore = 0;
 		 	apiResponse.responseStatus = "success";
-		 	_.each(files, function(file){
+		 	files.forEach(function(file) {
 		 		++semaphore;
 		 		fs.readFile(places_dir+file,'utf8',function(err, data){
 		 			--semaphore;
@@ -86,7 +85,7 @@ router.get('/events/:filetype', function(req, res, next) {
 						apiResponse.responseStatus = "success";
 						var eventsObj = JSON.parse(event_data);
 						var barList = JSON.parse(bar_data).results;
-						_.each(eventsObj.randomEvents, function(randEvent) {
+						eventsObj.randomEvents.forEach(function(randEvent) {
 							var entry = randEvent;
 							var randBar = _.sample(barList)
 							entry.latitude = randBar.geometry.location.lat;
