@@ -22,6 +22,9 @@ mainApp.config(['$routeProvider',
         		templateUrl: 'partials/places.html',
         		controller: 'PlacesController'
       		}).
+					when('/login-page', {
+        		templateUrl: 'partials/login-page.html'
+      		}).
       		otherwise({
         		redirectTo: '/'
       		});
