@@ -3,7 +3,6 @@ var http = require("http");
 var needle = require('needle');
 var querystring = require('querystring');
 var url = require('url');
-var _ = require('underscore');
 
 var location = null;
 var radius = null;
@@ -187,7 +186,7 @@ http
 		response.end();
 
 		if (location != null && key != null) {
-			_.each(places_types, getLocations);
+			places_types.forEach(getLocations);
 		}
 	})
 

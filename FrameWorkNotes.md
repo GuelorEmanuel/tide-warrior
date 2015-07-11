@@ -7,6 +7,9 @@
     git => version control
     github => version control
     browser => get familiar with Developer Tools on you browser
+
+### Database:
+    MariaDb
     
 ### Run:
     git pull <remote> <branch-name> 
@@ -16,12 +19,9 @@
     
     
 ### File Structure:
-    ../ => MapProjectTest, TideWarrior, locations, scrum and other hidden files/folders
     bin
     | - www => starting point
     node-modules => a list of the modules is in package.json, under dependencies
-    places
-    | - place_category.json => using this as temporary db for now. Should find better alternative ASAP
     public
     | - css => css stylesheets live here
     | - | - style.css => general style, used by all pages
@@ -43,14 +43,3 @@
     config.js => this is where we define variables or values we want available to everyone
     events.json => randomly generated info about events, for demo purposes. Should move ASAP
     package.json => file for managing npm installed modules
-    
-# NOTE: 
-
-    This is just a demo to give us all an idea of what this thing MIGHT be about.
-    It is also intended as a starting point for us all to get comfortable with 
-    most of these tools because we MIGHT be using them for the actual development.
-    Please, tinkle around with this and get familiar with whatever seems confusing.
-    I tried to add a lot of comments, including this file to get us all started.
-    My hope is, by playing around with this for the next couple of days, it will be
-    easier to choose an actual development framework because we would all have ideas
-    about most of these things and know what we want and what we don't.
