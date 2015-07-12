@@ -17,7 +17,7 @@ var drawMap = function (accessToken, map_center, pin_location) {
 	// Come back to this later and figure it out
 	/*var inputDiv = document.getElementById('directions');
 	inputDiv.style.visibility = 'hidden';*/
-	    
+
 
 	if (pin_location) {
 		var marker_properties = {
