@@ -53,7 +53,6 @@ dbClient.prototype.query = function (queryString, callback, substitutions) {
 				.on('result', function(res) {
 					res
 						.on('row', function(row) {
-						    console.log(row);
 						    results.push(row);
 						})
 					    .on('error', function(err) {

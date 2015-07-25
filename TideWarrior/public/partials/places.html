@@ -10,24 +10,11 @@
 	</div>
 
 	<div class="search-result">
-		<!-- The actual results -->
-		<div class="places-result" ng-show="!olyPlace">
+		<!-- The categories results -->
+		<div class="categories-result">
 			<ul>
 				<li ng-repeat="category in filtered = (categories | filter:query)">
-					<a ng-click="showMe(category.name)">
-						{{ category.name }}
-					</a>
-				</li>
-			</ul>
-		</div>
-
-		<div class="place-result">
-			<ul>
-				<li ng-repeat="place in placeInfo.places">
-					{{ place.name }} - {{ place.address }}
-					<a href="/map/{{ place.latitude }}/{{ place.longitude }}">
-						View
-					</a>
+						{{ category.categoryName }}
 				</li>
 			</ul>
 		</div>
