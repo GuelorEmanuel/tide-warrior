@@ -145,7 +145,7 @@ var afterDatabaseConnection = function () {
 			 		fs.readFile(filePath,'utf8',function(err, data) {
 			 			--semaphore;
 			 			if (!err) {
-			 				var categoryName = path.basename(filePath, '.json').split("_").join(" ");
+			 				var categoryName = path.basename(filePath, '.json').split("_").join("-");
 			 				var jsonObj = JSON.parse(data);
 
 			 				var insertEachPlace = function () {
