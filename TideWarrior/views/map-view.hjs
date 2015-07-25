@@ -3,15 +3,11 @@
 
 	<head>
 		{{> head }}
-		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
-		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
-		<link href='https://mapbox.com/base/latest/base.css' rel='stylesheet'>
-		<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.js'></script>
-		<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.css' type='text/css' />
-		<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
-		<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css' rel='stylesheet' />
-		<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css' rel='stylesheet' />
-	  	<link href='/css/map-style.css' rel='stylesheet'>
+		<link href='//api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
+		<link href='//mapbox.com/base/latest/base.css' rel='stylesheet'>
+		<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css' rel='stylesheet' />
+<!-- 		<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css' rel='stylesheet' />
+ -->	  	<link href='/css/map-style.css' rel='stylesheet'> 
 	</head>
 
   	<body>
@@ -19,12 +15,6 @@
 		<div id="main">
 
 			<div id='map'></div>
-			<div id='inputs'></div>
-			<div id='errors'></div>
-			<div id='directions'>
-			  <div id='routes'></div>
-			  <div id='instructions'></div>
-			</div>
 
 			<div class='top-bar'>
 			    {{> navigation }}
@@ -39,6 +29,8 @@
 		{{> footer }}
 
 	  	{{> scripts }}
+	  	<script src='//api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+	  	<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
 	  	<script src="/modules/map-app/app.js"></script>
 	  	<script src="/js/map-script.js"></script>
 
@@ -61,16 +53,6 @@
 			{{/ marker.properties }}
 			map_center.zoom = 16;
 			{{/ marker }}
-
-			// If I hit the enter button set the instruction water mark visible
-			/*$(function(){
- 				$("#inputs").keypress(function (e) {
-    				if (e.keyCode == 13 ) {
-        				var inputDiv = document.getElementById('directions');
-						inputDiv.style.visibility = 'visible';
-    				}
- 				});
-			});*/
 
 			$(function() {
 				drawMap(

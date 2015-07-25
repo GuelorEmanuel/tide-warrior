@@ -16,11 +16,11 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-router.get('/:lat/:lng', function(req, res, next) {
+router.get('/direction-to/:lat/:lng', function(req, res, next) {
 	res.render('map-view', {
 		title: config.appName,
 		accessToken: config.map.accessToken,
-		marker: {
+		destination: {
 			latitude: req.params.lat,
 			longitude: req.params.lng
 		},
