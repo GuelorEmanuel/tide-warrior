@@ -7,17 +7,17 @@ var mainApp = angular.module('mainApp');
 mainApp.factory('PlacesService', [
 	'$http',
 	function($http) {
-		var service = {};
+		var Service = {};
 
 		/* This function is part of the service
-		 * Specifically, it gets all the available places from the
-		 * server, using the api
-		 * Parameter is a callback to invoke once all the places have
-		 * been gotten or an error occured
+		 * Specifically, it gets all the available place categories
+		 * from the server, using the api
+		 * Parameter is a callback to invoke once all the categories
+		 * have been gotten or an error occured
 		 * callback signature is callback(err, data)
 		 */
-		service.getAllPlaces = function(callback) {
-			$http.get('/api/places/json')
+		Service.getAllCategories = function(callback) {
+			$http.get('/api/places/categories')
 				.error(function() {
 					callback({errorMessage: "no response from server"});
 				})
@@ -33,8 +33,15 @@ mainApp.factory('PlacesService', [
 				});
 		}
 
-		service.getPlace = function(place, callback) {
-			$http.get('/api/place/'+place.toLowerCase()+'/json')
+		/* This function is part of the service
+		 * Specifically, it gets all the available places in a category
+		 * from the server, using the api
+		 * Parameter is the id of the category and callback to invoke
+		 * once all the places have been gotten or an error occured
+		 * callback signature is callback(err, data)
+		 */
+		Service.getPlacesByCategory = function(categoryId, callback) {
+			$http.get('/api/places/category/' + categoryId)
 				.error(function() {
 					callback({errorMessage: "no response from server"});
 				})
@@ -50,6 +57,6 @@ mainApp.factory('PlacesService', [
 				});
 		}
 
-		return service;
+		return Service;
 	}
 ]);
