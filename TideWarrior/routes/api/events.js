@@ -2,41 +2,47 @@ var express = require('express');
 var router = express.Router();
 
 var config = require('../../config');
-var fs = require('fs');
+var debug = require('debug')('TideWarrior:eventsAPI');
+var Place = require('../../models/Event');
 
-router.get('/events', function(req, res, next) {
-	/* similar to the places api */
-	var apiResponse = {};
-	if (req.params.filetype.toLowerCase() == 'json') {
-		apiResponse.responseStatus = "success";
-		apiResponse.results = [];
-		var events_file = process.env.PWD + '/events.json';
-		var bar_places_file = process.env.PWD + '/places/bar.json';
-		fs.readFile(bar_places_file, 'utf8', function(err, bar_data) {
-			if (!err) {
-				fs.readFile(events_file, 'utf8', function(err, event_data) {
-					if (!err) {
-						apiResponse.responseStatus = "success";
-						var eventsObj = JSON.parse(event_data);
-						var barList = JSON.parse(bar_data).results;
-						eventsObj.randomEvents.forEach(function(randEvent) {
-							var entry = randEvent;
-							var randBar = _.sample(barList)
-							entry.latitude = randBar.geometry.location.lat;
-							entry.longitude = randBar.geometry.location.lng;
-							apiResponse.results.push(entry);
-						})
-						res.json(apiResponse);
-					}
-				});
-			}
-		})
-	}
-	else {
-		apiResponse.responseStatus = "error";
-		apiResponse.errorMessage = "requested data type not supported";
-		res.json(apiResponse);
-	}
+router.get('/categories', function(req, res, next) {
+ 	var apiResponse = {};
+ 	var fields = ['categoryId', 'categoryName'];
+	Place.getAllCategories(function (err, results) {
+		if (err) {
+			apiResponse.responseStatus = "error";
+	 		apiResponse.errorMessage = err.message;
+	 		debug(err.databaseError);
+	 		res.json(apiResponse);
+		}
+		else {
+			apiResponse.responseStatus = "success";
+		 	apiResponse.responseTime = Date();
+			apiResponse.results = results;
+			res.json(apiResponse);
+		}
+	}, fields);
+});
+
+router.get('/category/:categoryId', function(req, res, next) {
+ 	var apiResponse = {};
+ 	var filters = {};
+ 	filters.category = '= ' + req.params.categoryId;
+ 	var fields = ['name','points'];
+	Place.find(filters, function (err, results) {
+		if (err) {
+			apiResponse.responseStatus = "error";
+	 		apiResponse.errorMessage = err.message;
+	 		debug(err.databaseError);
+	 		res.json(apiResponse);
+		}
+		else {
+			apiResponse.responseStatus = "success";
+		 	apiResponse.responseTime = Date();
+			apiResponse.results = results;
+			res.json(apiResponse);
+		}
+	}, fields);
 });
 
 router.all('*', function(req, res, next) {

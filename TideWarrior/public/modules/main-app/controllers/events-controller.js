@@ -11,14 +11,31 @@ mainApp.controller('EventsController', [
 	'$scope',
 	'EventsService',
 	function($scope, EventsService) {
-		EventsService.getAllEvents(function(err, data) {
-			if (err) {
-				$scope.error = true;
-				$scope.errorMessage = err.errorMessage;
-			}
-			else {
-				$scope.events = data;
-			}
-		});
+		$scope.getAllCategories = function() {
+			EventsService.getAllCategories(function(err, data) {
+				if (err) {
+					$scope.error = true;
+					$scope.errorMessage = err.errorMessage;
+				}
+				else {
+					$scope.categories = data;
+				}
+			});
+		};
+
+		$scope.getEventsForCategory = function(categoryId) {
+			EventsService.getEventsByCategory(categoryId, function(err, data) {
+				if (err) {
+					$scope.error = true;
+					$scope.errorMessage = err.errorMessage;
+				}
+				else {
+					$scope.events = data;
+				}
+			});
+		};
+
+		// first get all categories once loaded
+		$scope.getAllCategories();
 	}
 ]);

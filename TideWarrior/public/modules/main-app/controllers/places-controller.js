@@ -33,10 +33,6 @@ mainApp.controller('PlacesController', [
 			});
 		};
 
-		$scope.getCoordinates = function(points) {
-			return points.match(/\d+\.\d+/g);
-		};
-
 		// first get all categories once loaded
 		$scope.getAllCategories();
 	}
