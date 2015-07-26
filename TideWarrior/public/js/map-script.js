@@ -1,5 +1,9 @@
-function drawRoute(waypoints, polyline, accessToken) {
-    if (waypoints.length != 2) return;
+var map = null,
+    waypoints = [],
+    polyline = null,
+    accessToken = "";
+
+function drawRoute() {
     // Directions API request looks like
     // http://api.tiles.mapbox.com/v4/directions/mapbox.driving/
     //    -122.42,37.78;-77.03,38.91.json?access_token={access_token}
@@ -26,51 +30,47 @@ function drawRoute(waypoints, polyline, accessToken) {
 
             return [myPoints.secondpoint, myPoints.firstPoint];
         });
-        polyline.setLatLngs(route);
+        if (polyline) {
+            polyline.setLatLngs(route);
+        }
     });
 }
 
-function drawMap(accessToken, map_center, destination) {
+function makeMarker(location) {
+    var sourceMarker = L.marker(location, { draggable: true }).addTo(map);
+    sourceMarker.on('dragend', drawRoute);
+    waypoints.push(sourceMarker);
+    drawRoute();
+}
+
+function drawMap(token, map_center, destination) {
+    accessToken = token;
 	L.mapbox.accessToken = accessToken;
-	var map = L.mapbox.map('map', 'chukzzy.mj252lbf', { zoomControl: false }) .setView([map_center.latitude, map_center.longitude], map_center.zoom);
+	map = L.mapbox.map('map', 'chukzzy.mj252lbf', { zoomControl: false }) .setView([map_center.latitude, map_center.longitude], map_center.zoom);
 
 	new L.Control.Zoom({ position: 'topright'  }).addTo(map);
-	new L.control.locate({ position: 'topright'}).addTo(map); 
+	new L.control.locate({ position: 'topright'}).addTo(map);
+
+    map.on('click', function(event) {
+        makeMarker(event.latlng);
+    });
 
     if (destination) {
         /* Let's add a callback to makeMarker so that it can draw the route only
          * after it's done processing the marker adding. */
 
-        // var numOfMarkers = 0;
-        // var myPoints = {};
+        polyline = L.polyline(waypoints, {color: 'blue'}).addTo(map);
 
-        // map.on('click', function(e) {
-        //     if(numOfMarkers < 2)
-        //         makeMarker(e, drawRoute);
-        // });
-
-    	var waypoints = [];
-
-        var polyline = L.polyline(waypoints, {color: 'blue'}).addTo(map);
-
-        var sourceMarker = L.marker([6.432081, 3.433406], { draggable: true }).addTo(map);
         var destinationMarker = L.marker([destination.latitude, destination.longitude]).addTo(map);
-
-        sourceMarker.on('dragend', function() {
-            drawRoute(waypoints, polyline, accessToken);
-        });
-
-        waypoints.push(sourceMarker);
         waypoints.push(destinationMarker);
-        
-        drawRoute(waypoints, polyline, accessToken);
 
-        /*function makeMarker(e, done) {
-            var marker = L.marker(e.latlng, { draggable: true }).addTo(map);
-            marker.on('dragend', drawRoute);
-            waypoints.push(marker);
-            numOfMarkers++;
-            return done();
-        }*/
+        // prompt to as the user to use current location
+        alert("Do you want to use your current location?");/*, function(accepted) {
+            if (accepted) { */
+                // get current location
+                var currentLocation = [6.432081, 3.433406];
+                makeMarker(currentLocation);
+           /* }
+        });*/
     }
 }
