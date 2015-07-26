@@ -9,15 +9,35 @@ mainApp.controller('PlacesController', [
 	'$scope',
 	'PlacesService',
 	function($scope, PlacesService) {
-		PlacesService.getAllCategories(function(err, data) {
-			if (err) {
-				$scope.error = true;
-				$scope.errorMessage = err.errorMessage;
-			}
-			else {
-				$scope.categories = data;
-			}
-		});
+		$scope.getAllCategories = function() {
+			PlacesService.getAllCategories(function(err, data) {
+				if (err) {
+					$scope.error = true;
+					$scope.errorMessage = err.errorMessage;
+				}
+				else {
+					$scope.categories = data;
+				}
+			});
+		};
 
+		$scope.getPlacesForCategory = function(categoryId) {
+			PlacesService.getPlacesByCategory(categoryId, function(err, data) {
+				if (err) {
+					$scope.error = true;
+					$scope.errorMessage = err.errorMessage;
+				}
+				else {
+					$scope.places = data;
+				}
+			});
+		};
+
+		$scope.getCoordinates = function(points) {
+			return points.match(/\d+\.\d+/g);
+		};
+
+		// first get all categories once loaded
+		$scope.getAllCategories();
 	}
 ]);

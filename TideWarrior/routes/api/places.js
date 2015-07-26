@@ -7,7 +7,7 @@ var Place = require('../../models/Place');
 
 router.get('/categories', function(req, res, next) {
  	var apiResponse = {};
- 	var fields = ['category', 'categoryName'];
+ 	var fields = ['categoryId', 'categoryName'];
 	Place.getAllCategories(function (err, results) {
 		if (err) {
 			apiResponse.responseStatus = "error";
