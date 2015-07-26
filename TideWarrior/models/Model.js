@@ -43,6 +43,7 @@ Model.prototype.getAll = function (callback, fields) {
  *         	   [
  *         	       A key=value pair to use to filter the entries
  *         	       returned for this model
+ 				   The value should be a valid SQL equality string
  *         	   ]
  * @param  {Function} callback
  *             [

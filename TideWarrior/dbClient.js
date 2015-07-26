@@ -1,5 +1,6 @@
 var poolModule = require('generic-pool');
 var config = require('./config');
+var debug = require('debug')('TideWarrior:dbClient');
 
 // using maximum of 50 connections for the pool
 // this will most likely be tweaked as time goes on
@@ -40,6 +41,7 @@ var dbPool = poolModule.Pool({
 function dbClient () {}
 
 dbClient.prototype.query = function (queryString, callback, substitutions) {
+	debug(queryString);
 	dbPool.acquire(function(err, client) {
 	    if (err) {
 	        if (callback) {
@@ -48,7 +50,7 @@ dbClient.prototype.query = function (queryString, callback, substitutions) {
 	    }
 	    else {
 	    	var results = [];
-	    	console.log(client);
+	    	var errorOccured = false;
 	        client.query(queryString, substitutions)
 				.on('result', function(res) {
 					res
@@ -56,6 +58,7 @@ dbClient.prototype.query = function (queryString, callback, substitutions) {
 						    results.push(row);
 						})
 					    .on('error', function(err) {
+					    	errorOccured = true;
 					    	if (callback) {
 					    		callback(err, null);
 					    	}
@@ -63,7 +66,7 @@ dbClient.prototype.query = function (queryString, callback, substitutions) {
 				})
 				.on('end', function() {
 	            	dbPool.release(client);
-	            	if (callback) {
+	            	if (callback && !errorOccured) {
 	            		callback(null, results);
 	            	}
 				});

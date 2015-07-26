@@ -7,6 +7,7 @@ var Place = require('../../models/Place');
 
 router.get('/categories', function(req, res, next) {
  	var apiResponse = {};
+ 	var fields = ['category', 'categoryName'];
 	Place.getAllCategories(function (err, results) {
 		if (err) {
 			apiResponse.responseStatus = "error";
@@ -20,7 +21,28 @@ router.get('/categories', function(req, res, next) {
 			apiResponse.results = results;
 			res.json(apiResponse);
 		}
-	}, ['categoryName']);
+	}, fields);
+});
+
+router.get('/category/:categoryId', function(req, res, next) {
+ 	var apiResponse = {};
+ 	var filters = {};
+ 	filters.category = '= ' + req.params.categoryId;
+ 	var fields = ['name','points'];
+	Place.find(filters, function (err, results) {
+		if (err) {
+			apiResponse.responseStatus = "error";
+	 		apiResponse.errorMessage = err.message;
+	 		debug(err.databaseError);
+	 		res.json(apiResponse);
+		}
+		else {
+			apiResponse.responseStatus = "success";
+		 	apiResponse.responseTime = Date();
+			apiResponse.results = results;
+			res.json(apiResponse);
+		}
+	}, fields);
 });
 
 router.all('*', function(req, res, next) {
