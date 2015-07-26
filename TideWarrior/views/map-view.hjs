@@ -6,8 +6,8 @@
 		<link href='//api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
 		<link href='//mapbox.com/base/latest/base.css' rel='stylesheet'>
 		<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css' rel='stylesheet' />
-<!-- 		<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css' rel='stylesheet' />
- -->	  	<link href='/css/map-style.css' rel='stylesheet'> 
+		<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css' rel='stylesheet' />
+	  	<link href='/css/map-style.css' rel='stylesheet'> 
 	</head>
 
   	<body>
@@ -35,30 +35,25 @@
 	  	<script src="/js/map-script.js"></script>
 
 		<script>
-			var pin_location = null;
+			var destination_location = null;
 
 			var map_center = {};
 			map_center.latitude = 6.4531;
 			map_center.longitude = 3.3958;
 			map_center.zoom = 13;
 
-			{{# marker }}
-			pin_location = {};
-			pin_location.latitude = {{ marker.latitude }};
-			pin_location.longitude = {{ marker.longitude }};
-			{{# marker.properties }}
-			pin_location.properties.name = '{{ marker.properties.name }}';
-			pin_location.properties.description = '{{ marker.properties.description }}';
-			pin_location.properties.symbol = '{{ marker.properties.symbol }}';
-			{{/ marker.properties }}
+			{{# destination }}
+			destination_location = {};
+			destination_location.latitude = {{ destination.latitude }};
+			destination_location.longitude = {{ destination.longitude }};
 			map_center.zoom = 16;
-			{{/ marker }}
+			{{/ destination }}
 
 			$(function() {
 				drawMap(
 					'{{ accessToken }}',
 					map_center,
-					pin_location
+					destination_location
 				);
 			});
 
