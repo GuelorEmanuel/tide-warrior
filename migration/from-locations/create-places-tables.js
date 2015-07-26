@@ -36,13 +36,6 @@ var afterDatabaseConnection = function () {
 		eventsTb = 'events',
 		geolocationsTb = 'geolocations';
 
-	// the order the tables are dropped matters
-	// this also drops the events table as it gets pretty
-	// useless after this
-	var dropTbsStatement = db.prepare("DROP TABLE IF EXISTS " +
-							  placesTb + ", " + eventsTb + ", " +
-							  categoriesTb + ", " + geolocationsTb);
-
 	var createCategoriesTbStatement = db.prepare("CREATE TABLE " + categoriesTb +
 										 "( " +
 										 "category_id INT NOT NULL AUTO_INCREMENT, " +
@@ -70,10 +63,10 @@ var afterDatabaseConnection = function () {
 								     "PRIMARY KEY (place_id), " +
 								     "FOREIGN KEY (place_category) " +
 								     "REFERENCES " + categoriesTb + " (category_id) " +
-								     "ON UPDATE CASCADE ON DELETE CASCADE, " +
+								     "ON UPDATE CASCADE ON DELETE RESTRICT, " +
 								     "FOREIGN KEY (place_location) " +
 								     "REFERENCES " + geolocationsTb + " (location_id) " +
-								     "ON UPDATE CASCADE ON DELETE CASCADE " +
+								     "ON UPDATE CASCADE ON DELETE RESTRICT " +
 									 ")");
 
 	var insertCategoryStatement = db.prepare("INSERT INTO " + categoriesTb + " SET " +
@@ -102,6 +95,8 @@ var afterDatabaseConnection = function () {
 				    .on('error', function(err) {
 				    	console.log(dbPrefix + err);
 				    	errorOccured = true;
+				    	console.log(scriptPrefix + "Error occured, disconnecting from database server");
+						db.end();
 				    })
 				    .on('end', function(info) {
 				     	querySuccess = true;
@@ -134,7 +129,7 @@ var afterDatabaseConnection = function () {
 		 			if (semaphore === 0 && !checkLastQueryCalled) {
 		 				checkLastQueryCalled = true;
 	 					console.log(scriptPrefix + "Added all data from json files to appropriate tables");
-	 					console.log(scriptPrefix + "End of script");
+	 					console.log(scriptPrefix + "End of script. Please wait for disconnection.");
 		 				db.end();
 		 			}
 		 		};
@@ -201,19 +196,6 @@ var afterDatabaseConnection = function () {
 		runQuery(createGeolocationsTbStatement, createGeolocationsTbCallback);
 	};
 
-	var dropTbsCallback = function () {
-		console.log(scriptPrefix + "Dropped Existing Tables '" + placesTb +
-					"' '" + categoriesTb + "' '" + geolocationsTb + "'");
-		// create new table that will store the places categories information
-		runQuery(createCategoriesTbStatement, createCategoriesTbCallback);
-	};
-
-	// drop all existing tables that store places information
-	runQuery(dropTbsStatement, dropTbsCallback);
-
-	if (errorOccured) {
-		console.log(scriptPrefix + "Error occured, disconnecting from database server");
-		db.end();
-	}
-
+	// create new table that will store the places categories information
+	runQuery(createCategoriesTbStatement, createCategoriesTbCallback);
 };

@@ -21,16 +21,16 @@ If you get npm error logs when you run `npm install`, try running
 Once the database and user are created, then every other script should be
 able to create tables in the database with our default user.
 
-Navigate to from-locations and run `npm install` and `npm start`. Wait for the script to finish.
-
-Navigate to from-events (or any other subfolder here containing scripts
-that migrate what you might need), and do the same thing.
+Navigate to any subfolder here containing scripts that migrate what you
+might need run `npm install` and `npm start`. Wait for the script to
+finish.
 
 ## Note:
 Make sure you run from-locations first before from-events because events
 need places ofcourse.
 
-#### Running any of these scripts has a potential of wiping your local
-#### data in the database, (and maybe replacing it with new ones)
-#### If the data is very important to you, always make sure to backup
-#### your database before running any of these scripts
+#### This script does not drop any table or database.
+#### You need to manually drop any conflicting table or
+#### database on your machine.
+#### This is a precaution to prevent the scripts from wiping
+#### existing data, whether intentionally or mistakenly.
