@@ -25,7 +25,7 @@
 		<div id="places-result">
 			<ul>
 				<li ng-repeat="place in filteredPlaces = (places | filter:query)">
-						<a href="/map/{{ getCoordinates(place.points).join('/') }}">
+						<a href="/map/direction-to/{{ getCoordinates(place.points).join('/') }}">
 							{{ place.name }}
 						</a>
 				</li>

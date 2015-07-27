@@ -25,7 +25,7 @@
 		<div id="events-result">
 			<ul>
 				<li ng-repeat="event in filteredEvents = (events | filter:query)">
-						<a href="/map/{{ getCoordinates(event.points).join('/') }}">
+						<a href="/map/direction-to/{{ getCoordinates(event.points).join('/') }}">
 							{{ event.name }}
 						</a>
 				</li>
