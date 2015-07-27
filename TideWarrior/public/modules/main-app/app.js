@@ -3,6 +3,17 @@ var mainApp = angular.module('mainApp', [
 	'ngRoute'
 ]);
 
+// this creates a rootScope to hold variables
+// and functions that should be available to all
+// controllers
+mainApp.run(['$rootScope',
+  function($rootScope) {
+      $rootScope.getCoordinates = function(points) {
+        return points.match(/\d+\.\d+/g);
+      };
+  }
+]);
+
 /* This takes care of the routing on the homepage
  * by loading the appropriate controller and view
  * on each subpage
