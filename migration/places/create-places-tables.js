@@ -6,8 +6,7 @@ var MariaClient = require('mariasql'),
 	password = "p@55w0rd", // his password
 	dbName = "tide", // our existing default database
 	scriptPrefix = "Script: ",
-	dbPrefix = "Database server says: ",
-	errorOccured = false;
+	dbPrefix = "Database server says: ";
 
 db.connect({
   host: 'localhost',
@@ -33,7 +32,6 @@ var afterDatabaseConnection = function () {
 	// the tables that store places information
 	var categoriesTb = 'places_categories',
 		placesTb = 'places',
-		eventsTb = 'events',
 		geolocationsTb = 'geolocations';
 
 	var createCategoriesTbStatement = db.prepare("CREATE TABLE " + categoriesTb +
@@ -94,7 +92,6 @@ var afterDatabaseConnection = function () {
 					})
 				    .on('error', function(err) {
 				    	console.log(dbPrefix + err);
-				    	errorOccured = true;
 				    	console.log(scriptPrefix + "Error occured, disconnecting from database server");
 						db.end();
 				    })
@@ -110,11 +107,10 @@ var afterDatabaseConnection = function () {
 	};
 
 	var insertData = function () {
-		var places_dir = path.resolve(process.env.PWD, '../../locations/places');
+		var places_dir = path.resolve(process.env.PWD, 'places-json');
 		console.log(scriptPrefix + "Inserting the data from the json files in " + places_dir);
 		fs.readdir(places_dir, function(err, files) {
 		 	if (err) {
-		 		errorOccured = true;
 		 		console.log(scriptPrefix + "Error opening 'places' directory");
 		 		console.log(scriptPrefix + "Make sure the places json files are in " + places_dir);
 		 		console.log(scriptPrefix + "Error occured, disconnecting from database server");

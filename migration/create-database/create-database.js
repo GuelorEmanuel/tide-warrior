@@ -5,8 +5,7 @@ var rlSync = require('readline-sync'),
 	rootUser = "root", // username of root of your local mariaDB server
 	rootPassword = "", // root's password
 	scriptPrefix = "Script: ",
-	dbPrefix = "Database server says: ",
-	errorOccured = false;
+	dbPrefix = "Database server says: ";
 
 answer = rlSync.question("Database Root User: (default is '" +
 							rootUser + "')\n");
@@ -67,7 +66,6 @@ var afterDbConnection = function () {
 					})
 				    .on('error', function(err) {
 				    	console.log(dbPrefix + err);
-				    	errorOccured = true;
 				    	console.log(scriptPrefix + "Error occured, disconnecting from database server");
 						db.end();
 				    })

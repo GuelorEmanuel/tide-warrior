@@ -6,8 +6,7 @@ var MariaClient = require('mariasql'),
 	password = "p@55w0rd", // his password
 	dbName = "tide", // our existing default database
 	scriptPrefix = "Script: ",
-	dbPrefix = "Database server says: ",
-	errorOccured = false;
+	dbPrefix = "Database server says: ";
 
 db.connect({
   host: 'localhost',
@@ -82,7 +81,6 @@ var afterDatabaseConnection = function () {
 					})
 				    .on('error', function(err) {
 				    	console.log(dbPrefix + err);
-				    	errorOccured = true;
 				    	console.log(scriptPrefix + "Error occured, disconnecting from database server");
 						db.end();
 				    })
@@ -98,11 +96,10 @@ var afterDatabaseConnection = function () {
 	};
 
 	var insertData = function () {
-		var events_dir = path.resolve(process.env.PWD, '../../events');
+		var events_dir = path.resolve(process.env.PWD, 'events-json');
 		console.log(scriptPrefix + "Inserting the data from the json files in " + events_dir);
 		fs.readdir(events_dir, function(err, files) {
 		 	if (err) {
-		 		errorOccured = true;
 		 		console.log(scriptPrefix + "Error opening 'events' directory");
 		 		console.log(scriptPrefix + "Make sure the events json files are in " + events_dir);
 		 		console.log(scriptPrefix + "Error occured, disconnecting from database server");
