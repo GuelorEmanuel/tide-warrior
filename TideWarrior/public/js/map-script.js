@@ -1,6 +1,7 @@
 
 var map = null,
     waypoints = [],
+    currentLocation =[],
     polyline = null,
     accessToken = "";
 
@@ -32,6 +33,58 @@ function drawRoute() {
             polyline.setLatLngs(route);
         }
     });
+}
+
+
+/* This takes my current location and sets the point of my current location on the map */
+function setMyCurrentLocation(position) {
+    currentLocation = [position.coords.longitude, position.coords.latitude];
+    makeMarker(currentLocation);
+
+    console.log(position.coords.longitude, position.coords.latitude);
+}
+
+
+/* Handles error for when determing user's current location  NOTE: Use appropraite image for each error displayed later.... (Guelor Choose Image to use)*/
+function handleErrorForLocation(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            swal({
+               title: 'PERMISSION DENIED',
+               text: 'permission was not granted! kindly choose a starting location for yourself',
+               // imageUrl: "/images/location.png",
+               type: 'warning'
+
+            });
+            break;
+        case error.POSITION_UNAVAILABLE:
+            swal({
+               title: 'POSITION UNAVAILABLE',
+               text: 'Positon for current location unavailable',
+               // imageUrl: "/images/location.png",
+               type: 'error'
+
+            });
+            break;
+        case error.TIMEOUT:
+            swal({
+               title: 'TIMED OUT',
+               text: 'Request timed out',
+               // imageUrl: "/images/location.png",
+               type: 'warning'
+
+            });
+            break;
+        case error.UNKNOWN_ERROR:
+            swal({
+               title: 'Error',
+               text: 'There was an error getting your location',
+               // imageUrl: "/images/location.png",
+               type: 'error'
+
+            });
+            break;
+    }
 }
 
 
@@ -71,12 +124,30 @@ function drawMap(token, map_center, destination) {
         waypoints.push(destinationMarker);
 
         // prompt to as the user to use current location
-        alert("Do you want to use your current location?");/*, function(accepted) {
-            if (accepted) { */
-                // get current location
-                var currentLocation = [6.432081, 3.433406];
-                makeMarker(currentLocation);
-           /* }
-        });*/
+        /*alert("Do you want to use your current location?"); */
+
+        swal({
+           title: 'Confirm Starting Location',
+           text: 'Do you want to use your current location? If "NO", choose a location that is suitable for you',
+           imageUrl: "/images/location.png",
+           animation: "slide-from-top",
+           showCancelButton: true,
+           confirmButtonText: 'Yes, please',
+           cancelButtonText: 'No, thanks'
+        },
+
+        function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(setMyCurrentLocation, handleErrorForLocation);
+            }
+            else {
+                swal({
+                   title: 'NOT SUPPORTED',
+                   text: 'Geolocation is not supported by this browser.',
+                   type: 'error'
+                });
+            }
+        });
+  
     }
 }
