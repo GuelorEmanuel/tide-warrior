@@ -1,51 +1,82 @@
-var drawMap = function (accessToken, map_center, pin_location) {
+
+var map = null,
+    waypoints = [],
+    polyline = null,
+    accessToken = "";
+
+
+/* Function to draw routes from a starting point to selected or respective destination */
+function drawRoute() {
+
+    if(waypoints.length < 2) return;
+
+    var points = waypoints.map(function(marker) {
+        var latlng = marker._latlng;
+        return [latlng.lng, latlng.lat].join(',');
+    }).join(';');
+
+    var directionsUrl = 'https://api.tiles.mapbox.com/v4/directions/mapbox.driving/' +
+    points + '.json?access_token=' + accessToken;
+
+    $.get(directionsUrl, function(data) {
+        // Do something with the directions returned from the API.
+        var route = data.routes[0].geometry.coordinates;
+        route = route.map(function(point) {
+            // Turns out if we zoom out we see that the lat/lngs are flipped,
+            // which is why it didn't look like they were being added to the
+            // map. We can invert them here before drawing.
+
+            return [point[1], point[0]];
+        });
+        if (polyline) {
+            polyline.setLatLngs(route);
+        }
+    });
+}
+
+
+/* This makes markers on the map when clicked on any part of the map */
+function makeMarker(location) {
+    if (waypoints.length > 1) {
+        map.removeLayer(waypoints.pop());
+    }
+
+    var sourceMarker = L.marker(location, { draggable: true }).addTo(map);
+    sourceMarker.on('dragend', drawRoute);
+    waypoints.push(sourceMarker);
+    drawRoute();
+}
+
+
+/* Handles displaying the map and positioning of the map etc... */
+function drawMap(token, map_center, destination) {
+    accessToken = token;
 	L.mapbox.accessToken = accessToken;
-	var map = L.mapbox.map('map', 'chukzzy.mj252lbf', { zoomControl: false }) .setView([map_center.latitude, map_center.longitude], map_center.zoom);
+	map = L.mapbox.map('map', 'chukzzy.mj252lbf', { zoomControl: false }) .setView([map_center.latitude, map_center.longitude], map_center.zoom);
 
 	new L.Control.Zoom({ position: 'topright'  }).addTo(map);
 	new L.control.locate({ position: 'topright'}).addTo(map);
 
+    map.on('click', function(event) {
+        makeMarker(event.latlng);
+    });
 
-	var directions = L.mapbox.directions(),
-    directionsLayer = L.mapbox.directions.layer(directions).addTo(map),
-    directionsInputControl = L.mapbox.directions.inputControl('inputs', directions).addTo(map),
-    directionsErrorsControl = L.mapbox.directions.errorsControl('errors', directions).addTo(map),
-    directionsRoutesControl = L.mapbox.directions.routesControl('routes', directions).addTo(map),
-    directionsInstructionsControl = L.mapbox.directions.instructionsControl('instructions', directions).addTo(map);
+    polyline = L.polyline(waypoints, {color: 'blue'}).addTo(map);
 
+    if (destination) {
+        /* Let's add a callback to makeMarker so that it can draw the route only
+         * after it's done processing the marker adding. */
 
-	// Come back to this later and figure it out
-	/*var inputDiv = document.getElementById('directions');
-	inputDiv.style.visibility = 'hidden';*/
+        var destinationMarker = L.marker([destination.latitude, destination.longitude]).addTo(map);
+        waypoints.push(destinationMarker);
 
-
-	if (pin_location) {
-		var marker_properties = {
-			'marker-size': 'large',
-		    'marker-color': '#BE9A6B',
-		    'marker-symbol': 'circle'
-		};
-		if (pin_location.properties) {
-			marker_properties.title = pin_location.properties.name;
-		    marker_properties.description = pin_location.properties.description;
-		    marker_properties["'marker-symbol'"] = pin_location.properties.symbol;
-		}
-		L.mapbox.featureLayer({
-		    // this feature is in the GeoJSON format: see geojson.org
-		    // for the full specification
-		    type: 'Feature',
-		    geometry: {
-		        type: 'Point',
-		        // coordinates here are in longitude, latitude order because
-		        // x, y is the standard for GeoJSON and many formats
-		        coordinates: [
-		        	pin_location.longitude,
-		        	pin_location.latitude
-		        ]
-		    },
-		    properties: marker_properties
-		}).addTo(map);
-
-		map.panTo([pin_location.latitude, pin_location.longitude]);
-	}
+        // prompt to as the user to use current location
+        alert("Do you want to use your current location?");/*, function(accepted) {
+            if (accepted) { */
+                // get current location
+                var currentLocation = [6.432081, 3.433406];
+                makeMarker(currentLocation);
+           /* }
+        });*/
+    }
 }
