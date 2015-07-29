@@ -7,6 +7,7 @@ var map = null,
 
 
 /* Function to draw routes from a starting point to selected or respective destination */
+
 function drawRoute() {
 
     if(waypoints.length < 2) return;
@@ -20,13 +21,15 @@ function drawRoute() {
     points + '.json?access_token=' + accessToken;
 
     $.get(directionsUrl, function(data) {
-        // Do something with the directions returned from the API.
+        
+        /* Do something with the directions returned from the API. */
         var route = data.routes[0].geometry.coordinates;
-        route = route.map(function(point) {
-            // Turns out if we zoom out we see that the lat/lngs are flipped,
-            // which is why it didn't look like they were being added to the
-            // map. We can invert them here before drawing.
 
+        route = route.map(function(point) {
+
+            /* Turns out if we zoom out we see that the lat/lngs are flipped,
+             * which is why it didn't look like they were being added to the
+             * map. We can invert them here before drawing. */
             return [point[1], point[0]];
         });
         if (polyline) {
@@ -37,15 +40,15 @@ function drawRoute() {
 
 
 /* This takes my current location and sets the point of my current location on the map */
+
 function setMyCurrentLocation(position) {
     currentLocation = [position.coords.longitude, position.coords.latitude];
     makeMarker(currentLocation);
-
-    console.log(position.coords.longitude, position.coords.latitude);
 }
 
 
 /* Handles error for when determing user's current location  NOTE: Use appropraite image for each error displayed later.... (Guelor Choose Image to use)*/
+
 function handleErrorForLocation(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
@@ -89,6 +92,7 @@ function handleErrorForLocation(error) {
 
 
 /* This makes markers on the map when clicked on any part of the map */
+
 function makeMarker(location) {
     if (waypoints.length > 1) {
         map.removeLayer(waypoints.pop());
@@ -102,6 +106,7 @@ function makeMarker(location) {
 
 
 /* Handles displaying the map and positioning of the map etc... */
+
 function drawMap(token, map_center, destination) {
     accessToken = token;
 	L.mapbox.accessToken = accessToken;
@@ -123,12 +128,12 @@ function drawMap(token, map_center, destination) {
         var destinationMarker = L.marker([destination.latitude, destination.longitude]).addTo(map);
         waypoints.push(destinationMarker);
 
-        // prompt to as the user to use current location
-        /*alert("Do you want to use your current location?"); */
+
+        /* prompt to as the user to use current location */
 
         swal({
            title: 'Confirm Starting Location',
-           text: 'Do you want to use your current location? If "NO", choose a location that is suitable for you',
+           text: 'Do you want to automatically use your current location?',
            imageUrl: "/images/location.png",
            animation: "slide-from-top",
            showCancelButton: true,
