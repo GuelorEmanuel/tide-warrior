@@ -5,8 +5,7 @@ var rlSync = require('readline-sync'),
 	rootUser = "root", // username of root of your local mariaDB server
 	rootPassword = "", // root's password
 	scriptPrefix = "Script: ",
-	dbPrefix = "Database server says: ",
-	errorOccured = false;
+	dbPrefix = "Database server says: ";
 
 answer = rlSync.question("Database Root User: (default is '" +
 							rootUser + "')\n");
@@ -51,9 +50,6 @@ var afterDbConnection = function () {
 		characterSet = 'utf8',
 		collate = 'utf8_general_ci';
 
-	var dropDbStatement = db.prepare("DROP DATABASE IF EXISTS " +
-					   		 dbName);
-
 	var createDbStatement = db.prepare("CREATE DATABASE " +
 					  	 	   dbName + " CHARACTER SET = ? COLLATE = ?");
 
@@ -70,7 +66,8 @@ var afterDbConnection = function () {
 					})
 				    .on('error', function(err) {
 				    	console.log(dbPrefix + err);
-				    	errorOccured = true;
+				    	console.log(scriptPrefix + "Error occured, disconnecting from database server");
+						db.end();
 				    })
 				    .on('end', function(info) {
 				     	querySuccess = true;
@@ -86,7 +83,7 @@ var afterDbConnection = function () {
 	var createUserCallback = function () {
 		console.log(scriptPrefix + "Created user '" + user + "' and granted all " +
 					"permissions on '" + dbName + "' database");
-		console.log(scriptPrefix + "End of script");
+		console.log(scriptPrefix + "End of script. Please wait for disconnection.");
 		db.end();
 	};
 
@@ -97,19 +94,6 @@ var afterDbConnection = function () {
 		runQuery(createUserStatement, createUserCallback, [user, host, password]);
 	};
 
-	var dropDbCallback = function () {
-		console.log(scriptPrefix + "Dropped Existing Database with Name '" +
-					dbName + "'");
-		// create a new database with our defined database name
-		runQuery(createDbStatement, createDbCallback, [characterSet, collate]);
-	};
-
-	// drop our default database if it exists
-	runQuery(dropDbStatement, dropDbCallback);
-
-	if (errorOccured) {
-		console.log(scriptPrefix + "Error occured, disconnecting from database server");
-		db.end();
-	}
-
+	// create a new database with our defined database name
+	runQuery(createDbStatement, createDbCallback, [characterSet, collate]);
 };

@@ -6,8 +6,7 @@ var MariaClient = require('mariasql'),
 	password = "p@55w0rd", // his password
 	dbName = "tide", // our existing default database
 	scriptPrefix = "Script: ",
-	dbPrefix = "Database server says: ",
-	errorOccured = false;
+	dbPrefix = "Database server says: ";
 
 db.connect({
   host: 'localhost',
@@ -35,11 +34,6 @@ var afterDatabaseConnection = function () {
 		eventsTb = 'events',
 		geolocationsTb = 'geolocations';
 
-	// the order the tables are dropped matters
-	// this script should not drop the geolocations table
-	var dropTbsStatement = db.prepare("DROP TABLE IF EXISTS " +
-							  eventsTb + ", " + categoriesTb);
-
 	var createCategoriesTbStatement = db.prepare("CREATE TABLE " + categoriesTb +
 										 "( " +
 										 "category_id INT NOT NULL AUTO_INCREMENT, " +
@@ -61,10 +55,10 @@ var afterDatabaseConnection = function () {
 								     "PRIMARY KEY (event_id), " +
 								     "FOREIGN KEY (event_category) " +
 								     "REFERENCES " + categoriesTb + " (category_id) " +
-								     "ON UPDATE CASCADE ON DELETE CASCADE, " +
+								     "ON UPDATE CASCADE ON DELETE RESTRICT, " +
 								     "FOREIGN KEY (event_location) " +
 								     "REFERENCES " + geolocationsTb + " (location_id) " +
-								     "ON UPDATE CASCADE ON DELETE CASCADE " +
+								     "ON UPDATE CASCADE ON DELETE RESTRICT " +
 									 ")");
 
 	var insertCategoryStatement = db.prepare("INSERT INTO " + categoriesTb + " SET " +
@@ -87,7 +81,8 @@ var afterDatabaseConnection = function () {
 					})
 				    .on('error', function(err) {
 				    	console.log(dbPrefix + err);
-				    	errorOccured = true;
+				    	console.log(scriptPrefix + "Error occured, disconnecting from database server");
+						db.end();
 				    })
 				    .on('end', function(info) {
 				     	querySuccess = true;
@@ -101,11 +96,10 @@ var afterDatabaseConnection = function () {
 	};
 
 	var insertData = function () {
-		var events_dir = path.resolve(process.env.PWD, '../../events');
+		var events_dir = path.resolve(process.env.PWD, 'events-json');
 		console.log(scriptPrefix + "Inserting the data from the json files in " + events_dir);
 		fs.readdir(events_dir, function(err, files) {
 		 	if (err) {
-		 		errorOccured = true;
 		 		console.log(scriptPrefix + "Error opening 'events' directory");
 		 		console.log(scriptPrefix + "Make sure the events json files are in " + events_dir);
 		 		console.log(scriptPrefix + "Error occured, disconnecting from database server");
@@ -120,7 +114,7 @@ var afterDatabaseConnection = function () {
 		 			if (semaphore === 0 && !checkLastQueryCalled) {
 		 				checkLastQueryCalled = true;
 	 					console.log(scriptPrefix + "Added all data from json files to appropriate tables");
-	 					console.log(scriptPrefix + "End of script");
+	 					console.log(scriptPrefix + "End of script. Please wait for disconnection.");
 		 				db.end();
 		 			}
 		 		};
@@ -176,19 +170,6 @@ var afterDatabaseConnection = function () {
 		runQuery(createEventsTbStatement, createEventsTbCallback);
 	};
 
-	var dropTbsCallback = function () {
-		console.log(scriptPrefix + "Dropped Existing Tables '" + eventsTb +
-					"' '" + categoriesTb + "'");
-		// create new table that will store the events categories information
-		runQuery(createCategoriesTbStatement, createCategoriesTbCallback);
-	};
-
-	// drop all existing tables that store events information
-	runQuery(dropTbsStatement, dropTbsCallback);
-
-	if (errorOccured) {
-		console.log(scriptPrefix + "Error occured, disconnecting from database server");
-		db.end();
-	}
-
+	// create new table that will store the events categories information
+	runQuery(createCategoriesTbStatement, createCategoriesTbCallback);
 };
