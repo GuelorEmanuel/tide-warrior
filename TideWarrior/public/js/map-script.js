@@ -1,11 +1,13 @@
 
 var map = null,
     waypoints = [],
+    currentLocation =[],
     polyline = null,
     accessToken = "";
 
 
 /* Function to draw routes from a starting point to selected or respective destination */
+
 function drawRoute() {
 
     if(waypoints.length < 2) return;
@@ -19,13 +21,15 @@ function drawRoute() {
     points + '.json?access_token=' + accessToken;
 
     $.get(directionsUrl, function(data) {
-        // Do something with the directions returned from the API.
+        
+        /* Do something with the directions returned from the API. */
         var route = data.routes[0].geometry.coordinates;
-        route = route.map(function(point) {
-            // Turns out if we zoom out we see that the lat/lngs are flipped,
-            // which is why it didn't look like they were being added to the
-            // map. We can invert them here before drawing.
 
+        route = route.map(function(point) {
+
+            /* Turns out if we zoom out we see that the lat/lngs are flipped,
+             * which is why it didn't look like they were being added to the
+             * map. We can invert them here before drawing. */
             return [point[1], point[0]];
         });
         if (polyline) {
@@ -35,7 +39,60 @@ function drawRoute() {
 }
 
 
+/* This takes my current location and sets the point of my current location on the map */
+
+function setMyCurrentLocation(position) {
+    currentLocation = [position.coords.longitude, position.coords.latitude];
+    makeMarker(currentLocation);
+}
+
+
+/* Handles error for when determing user's current location  NOTE: Use appropraite image for each error displayed later.... (Guelor Choose Image to use)*/
+
+function handleErrorForLocation(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            swal({
+               title: 'PERMISSION DENIED',
+               text: 'permission was not granted! kindly choose a starting location for yourself',
+               // imageUrl: "/images/location.png",
+               type: 'warning'
+
+            });
+            break;
+        case error.POSITION_UNAVAILABLE:
+            swal({
+               title: 'POSITION UNAVAILABLE',
+               text: 'Positon for current location unavailable',
+               // imageUrl: "/images/location.png",
+               type: 'error'
+
+            });
+            break;
+        case error.TIMEOUT:
+            swal({
+               title: 'TIMED OUT',
+               text: 'Request timed out',
+               // imageUrl: "/images/location.png",
+               type: 'warning'
+
+            });
+            break;
+        case error.UNKNOWN_ERROR:
+            swal({
+               title: 'Error',
+               text: 'There was an error getting your location',
+               // imageUrl: "/images/location.png",
+               type: 'error'
+
+            });
+            break;
+    }
+}
+
+
 /* This makes markers on the map when clicked on any part of the map */
+
 function makeMarker(location) {
     if (waypoints.length > 1) {
         map.removeLayer(waypoints.pop());
@@ -49,6 +106,7 @@ function makeMarker(location) {
 
 
 /* Handles displaying the map and positioning of the map etc... */
+
 function drawMap(token, map_center, destination) {
     accessToken = token;
 	L.mapbox.accessToken = accessToken;
@@ -70,13 +128,31 @@ function drawMap(token, map_center, destination) {
         var destinationMarker = L.marker([destination.latitude, destination.longitude]).addTo(map);
         waypoints.push(destinationMarker);
 
-        // prompt to as the user to use current location
-        alert("Do you want to use your current location?");/*, function(accepted) {
-            if (accepted) { */
-                // get current location
-                var currentLocation = [6.432081, 3.433406];
-                makeMarker(currentLocation);
-           /* }
-        });*/
+
+        /* prompt to as the user to use current location */
+
+        swal({
+           title: 'Confirm Starting Location',
+           text: 'Do you want to automatically use your current location?',
+           imageUrl: "/images/location.png",
+           animation: "slide-from-top",
+           showCancelButton: true,
+           confirmButtonText: 'Yes, please',
+           cancelButtonText: 'No, thanks'
+        },
+
+        function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(setMyCurrentLocation, handleErrorForLocation);
+            }
+            else {
+                swal({
+                   title: 'NOT SUPPORTED',
+                   text: 'Geolocation is not supported by this browser.',
+                   type: 'error'
+                });
+            }
+        });
+  
     }
 }
