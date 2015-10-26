@@ -73,6 +73,25 @@ Place.prototype.getAllCategories = function (callback, fields) {
 	}
 };
 
+
+Place.prototype.getAllNames = function (callback, fields) {
+	if (callback) {
+		var queryString = 'SELECT * FROM ' + placesTb;
+		this.db.query(queryString, function (err, results) {
+			if (err) {
+				var errResponse = {};
+				errResponse.status = 'Database Error';
+				errResponse.message = 'Error retrieving data from database';
+				errResponse.databaseError = err;
+				callback(errResponse);
+			}
+			else {
+				callback(null, results);
+			}
+		});
+	}
+};
+
 /**
  * [find Gets all the entries for places that match the filters]
  * @param  {Object}  filters

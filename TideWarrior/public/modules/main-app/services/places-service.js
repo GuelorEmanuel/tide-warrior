@@ -32,6 +32,25 @@ mainApp.factory('PlacesService', [
 					}
 				});
 		}
+		
+		
+		
+		Service.getAllNames = function(callback) {
+			$http.get('/api/places/categories')
+				.error(function() {
+					callback({errorMessage: "no response from server"});
+				})
+				.success(function(data) {
+					// if there is no data or the response status in the data says error
+					if (!data || data.responseStatus == "error") {
+						callback({errorMessage: data.errorMessage ||
+							"empty response from server" });
+					}
+					else {
+						callback(null, data.results);
+					}
+				});
+		}
 
 		/* This function is part of the service
 		 * Specifically, it gets all the available places in a category

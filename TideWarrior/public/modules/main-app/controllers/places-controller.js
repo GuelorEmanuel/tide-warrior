@@ -20,6 +20,20 @@ mainApp.controller('PlacesController', [
 				}
 			});
 		};
+		
+		
+		
+		$scope.getAllNames = function() {
+			PlacesService.getAllNames(function(err, data) {
+				if (err) {
+					$scope.error = true;
+					$scope.errorMessage = err.errorMessage;
+				}
+				else {
+					$scope.places = data;
+				}
+			});
+		};
 
 		$scope.getPlacesForCategory = function(categoryId) {
 			PlacesService.getPlacesByCategory(categoryId, function(err, data) {
@@ -35,5 +49,6 @@ mainApp.controller('PlacesController', [
 
 		// first get all categories once loaded
 		$scope.getAllCategories();
+
 	}
 ]);
