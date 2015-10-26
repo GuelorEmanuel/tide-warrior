@@ -1,9 +1,24 @@
 <!-- FIXME: Heavily refactor places.html -->
 <div class="container">
 
-	<div class="input-group">
-        <input type="text" class="form-control" id="search-field" placeholder="Search" ng-model="query">
-    </div>
+    
+    
+    <body data-ng-controller="PlacesController">
+    <form>
+      <div>
+        <label>SEARCH</label>
+        <input type="text" data-ng-model="query" list="places-result">
+      </div>
+    </form>
+  </div>
+  <datalist id="places-result">
+    <option  data-ng-repeat="place in filteredPlaces = (places | filter:query)" value="{{place.name}}">
+  </datalist>
+  </body>
+    
+    
+    
+    
 
     <!-- Only show this if theres an error -->
 	<div class="error" ng-show="error">

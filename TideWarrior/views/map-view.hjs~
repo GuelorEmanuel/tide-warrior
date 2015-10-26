@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="mapApp">
+
+	<head>
+		{{> head }}
+		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+		
+		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'>
+		<link href='https://mapbox.com/base/latest/base.css' rel='stylesheet'>
+		<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.js'></script>
+		<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.3.0/mapbox.directions.css' type='text/css' />
+		<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
+		<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css' rel='stylesheet' />
+		<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css' rel='stylesheet' />
+	  	<link href='/css/map-style.css' rel='stylesheet'>
+	</head>
+
+  	<body>
+  	
+  	<div id='map'></div>
+<script>
+L.mapbox.accessToken = '{{ accessToken }}';
+L.mapbox.map('map', 'mapbox.streets')
+    .addControl(L.mapbox.geocoderControl('bugzy231.7664e1a2'));
+</script>
+
+		<div id="main">
+
+			<div id='map'></div>
+			<div id='inputs'></div>
+			<div id='errors'></div>
+			<div id='directions'>
+			  <div id='routes'></div>
+			  <div id='instructions'></div>
+			</div>
+
+			<div class='top-bar'>
+			    {{> navigation }}
+			    <div class="input-pill">
+			    	<input class="col8" type="text" placeholder="Enter address">
+			    	<input class="button col4" type="submit" value="Show">
+			    </div>
+			</div>
+
+		</div>
+
+		{{> footer }}
+
+	  	{{> scripts }}
+	  	<script src="/modules/map-app/app.js"></script>
+	  	<script src="/js/map-script.js"></script>
+
+		<script>
+			var pin_location = null;
+
+			var map_center = {};
+			map_center.latitude = 6.4531;
+			map_center.longitude = 3.3958;
+			map_center.zoom = 13;
+
+			{{# marker }}
+			pin_location = {};
+			pin_location.latitude = {{ marker.latitude }};
+			pin_location.longitude = {{ marker.longitude }};
+			{{# marker.properties }}
+			pin_location.properties.name = '{{ marker.properties.name }}';
+			pin_location.properties.description = '{{ marker.properties.description }}';
+			pin_location.properties.symbol = '{{ marker.properties.symbol }}';
+			{{/ marker.properties }}
+			map_center.zoom = 16;
+			{{/ marker }}
+
+			// If I hit the enter button set the instruction water mark visible
+			/*$(function(){
+ 				$("#inputs").keypress(function (e) {
+    				if (e.keyCode == 13 ) {
+        				var inputDiv = document.getElementById('directions');
+						inputDiv.style.visibility = 'visible';
+    				}
+ 				});
+			});*/
+
+			$(function() {
+				drawMap(
+					'{{ accessToken }}',
+					map_center,
+					pin_location
+				);
+			});
+
+		</script>
+
+	</body>
+
+</html>
