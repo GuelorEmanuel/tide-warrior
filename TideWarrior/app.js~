@@ -4,42 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var fs = require('fs');
 
-var api = require('./routes/api');
+var eventsAPI = require('./routes/api/events');
+var placesAPI = require('./routes/api/places');
 var index = require('./routes/index');
 var map = require('./routes/map');
 
-var config = require('./config.js');
+var config = require('./config');
 
 var app = express();
-
-var http = require('https');
-
-http.get('https://www.eventbrite.ca/d/nigeria--lagos/events/', function(res){
-        var str = '';
-        console.log('Response is '+res.statusCode);
-
-        res.on('data', function (chunk) {
-              //console.log('BODY: ' + chunk);
-               str += chunk;
-         });
-
-        res.on('end', function () {
-             //console.log(str);
-        
-        fs.writeFile('output.json', JSON.stringify(str, null, 4), function(err){
-
-    console.log('File successfully written! - Check your project directory for the output.json file');
-
-	})
-        
-        
-        });
-
-  
-  });
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,7 +27,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/api', api);
+app.use('/api/places', placesAPI);
+app.use('/api/events', eventsAPI);
 app.use('/map', map);
 
 // catch 404 and forward to error handler
@@ -77,10 +51,6 @@ if (app.get('env') === 'development') {
     });
   });
 }
-
-
-
-
 
 // production error handler
 // no stacktraces leaked to user

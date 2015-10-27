@@ -12,8 +12,10 @@
     </form>
   </div>
   <datalist id="places-result">
-    <option  data-ng-repeat="category in filteredCategories = (categories | filter:query)" value="{{category.places.place.name}}">
-
+    <option  data-ng-repeat="place in filteredPlaces = (places | filter:query)" value="{{place.name}}">
+    <a href="" ng-click="(categories | filter:query)">
+							{{ category.categoryName }}
+						</a>
   </datalist>
   </body>
     

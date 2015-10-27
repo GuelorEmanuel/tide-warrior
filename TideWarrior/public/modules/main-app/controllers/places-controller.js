@@ -49,6 +49,7 @@ mainApp.controller('PlacesController', [
 
 		// first get all categories once loaded
 		$scope.getAllCategories();
+		//$scope.getAllNames();
 
 	}
 ]);

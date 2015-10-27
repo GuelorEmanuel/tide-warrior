@@ -76,7 +76,13 @@ Place.prototype.getAllCategories = function (callback, fields) {
 
 Place.prototype.getAllNames = function (callback, fields) {
 	if (callback) {
-		var queryString = 'SELECT * FROM ' + placesTb;
+		//var queryString = 'SELECT * FROM ' + placesTb;
+		
+		var queryString = 'SELECT ';
+
+		queryString += categoryName + ' AS ' + alias + 'FROM ' + categoriesTb +' UNION ' +
+						'SELECT ' + placeName + ' FROM ' + placesTb;
+		
 		this.db.query(queryString, function (err, results) {
 			if (err) {
 				var errResponse = {};
