@@ -16,15 +16,33 @@
 		<div id="main">
 
 			<div id='map'></div>
-
+	
 			<div class='top-bar'>
 			    {{> navigation }}
 			    <div class="input-pill">
-			    	<input class="col8" type="text" placeholder="Enter address">
+			    	<input class="col8" id='input' type="text" placeholder="Enter address" ng-model="query">
 			    	<input class="button col4" type="submit" value="Show">
-			    </div>
-			</div>
+	    	
+				    	
+				     <div id="search-result">
+						<div ng-controller="MapController">
+							<div id="categories-result" ng-show="query">
+								<ul id="listOfCategoriesAndPlaces">
+									<li ng-repeat="category in filteredCategories = (placesAndCategoriesAndAddresses | filter:query | limitTo:5)" id="categoryPlaces">
+											<a id="categoryTag" href="" style="text-decoration:none;" ng:click="setSelected(category.allCategoriesAndPlaces, 'input')" >
+												<p class="text-info"><span ng-bind="category.allCategoriesAndPlaces"></span></p>
+											</a>
+									</li>
+								</ul>
+							</div>
 
+							<div id="empty-category" ng-show="!error && !filteredCategories.length">
+								<p class="text-info">No results found</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		{{> footer }}
@@ -33,10 +51,14 @@
 	  	<script src='//api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
 	  	<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
 	  	<script src="/modules/map-app/app.js"></script>
+	  	<script src="/modules/map-app/controllers/map-controller.js"></script>
+	  	<script src="/modules/map-app/services/map-place-services.js"></script>
 	  	<script src="/js/map-script.js"></script>
 	  	<script src="/dist/sweetalert.min.js"></script>
+	  	<script src="/js/autocomplete.js"></script>
 
 		<script>
+
 			var destination_location = null;
 
 			var map_center = {};

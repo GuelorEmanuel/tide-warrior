@@ -41,10 +41,11 @@
   <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
       <li class="sidebar-brand">
-        <a href="#">Best of Lagos</a>
+        <a href="#">Best of Lagos-Eko</a>
       </li>
       <li><a href="/map">Map</a></li>
-      <li><a href="/#/events">Events</a></li>
+       <li><a href="/#/places">Places</a></li>
+      <li><a href="/events">Popular Events</a></li>
       <li><a href="#">Restaurants</a></li>
       <li><a href="#">City and Culture</a></li>
       <li><a href="#">City Guide</a></li>

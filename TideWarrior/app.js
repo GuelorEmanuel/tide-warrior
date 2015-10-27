@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var eventsAPI = require('./routes/api/events');
 var placesAPI = require('./routes/api/places');
+var mapAPI    = require('./routes/api/maps');
 var index = require('./routes/index');
 var map = require('./routes/map');
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/api/places', placesAPI);
+app.use('/api/maps', mapAPI);
 app.use('/api/events', eventsAPI);
 app.use('/map', map);
 
