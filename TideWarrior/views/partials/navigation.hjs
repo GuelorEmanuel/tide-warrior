@@ -1,65 +1,126 @@
-<div class="site-wrapper">
-  <div class="site-wrapper-inner">
-    <div class="cover-container">
-      <div class="masthead clearfix">
-        <div class="inner">
-          <h3 class="masthead-brand"> <a id ="test" href="/#/">{{ title }}</a></h3>
-          <nav>
-            <ul class="nav masthead-nav">
-              <li><a href="/map">Map</a></li>
-              <li><a href="/#/events">Events</a></li>
-              <li class="dropdown" ng-controller="PlacesController">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                   role="button" aria-haspopup="true" aria-expanded="false">
-                  City Guide <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <div class="row" style="width: 400px;">
-                            <ul class="list-unstyled col-md-4">
-                                <li><a href="#">test1-1</a></li>
-                                <li><a href="#">test1-2</a></li>
-                                <li><a href="#">test1-3</a></li>
-                            </ul>
-                            <ul class="list-unstyled col-md-4">
-                                <li><a href="#">test2-1</a></li>
-                                <li><a href="#">test2-2</a></li>
-                                <li><a href="#">test2-3</a></li>
-                            </ul>
-                            <ul class="list-unstyled col-md-4">
-                                <li><a href="#">test3-1</a></li>
-                                <li><a href="#">test3-2</a></li>
-                                <li><a href="#">test3-3</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-              </li>
-              <li>
-                <button type="button"  href="#menu-toggle" class="btn btn-default" id="menu-toggle">
-                  <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Sidebar -->
-  <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a href="#">Best of Lagos</a>
-      </li>
-      <li><a href="/map">Map</a></li>
-      <li><a href="/#/events">Events</a></li>
-      <li><a href="#">Restaurants</a></li>
-      <li><a href="#">City and Culture</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </div>
-  <!-- /#sidebar-wrapper -->
-</div>
+<!-- Navigation -->
+    <nav id="ddmenu" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand page-scroll" href="#page-top">{{ title }}</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!--<div class="collapse navbar-collapse navbar-ex1-collapse">-->
+              <div class="menu-icon"></div>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- HELLLOR -->
+                    <li class="full-width">
+                      <span class="top-heading">Events</span>
+                      <i class="caret"></i>
+                      <div class="dropdown">
+                        <div class="dd-inner">
+                          <div class="column">
+                            <h3>Top Ten Concerts</h3>
+                            <a href="#">Kanye West</a>
+                            <a href="#">Drake</a>
+                            <a href="#">Snoop Dog</a>
+                            <a href="#">Akon</a>
+                            <a href="#">Pink Floyd</a>
+                            <a href="#">Beyonce</a>
+                            <a href="#">Nas</a>
+                            <a href="#">50 Cent</a>
+                            <a href="#">Eminem</a>
+                          </div>
+                          <div class="column">
+                            <h3>All Events</h3>
+                            <a href="#">Events</a>
+                          </div>
+                          <!--<div class="column column260 mayHide">
+                            <a href="http://www.w3schools.com">
+                              <br /><img src="/images/ovo-fest.png" alt="Go to W3Schools!" />
+                          </div>-->
+                        </div>
+                      </div>
+                    </li>
+                    <li class="no-sub"><a class="top-heading" href="http://www.google.com">Best of Lagos</a></li>
+                    <li><a class="top-heading" href="#">Restaurants</a></li>
+                    <li>
+                      <span class="top-heading">City Guide</span>
+                      <i class="caret"></i>
+                      <div class="dropdown offset300">
+                        <div class="dd-inner">
+                          <div class="column">
+                            <h3>Food & Drink</h3>
+                            <div>
+                              <a href="#">Bakeries</a>
+                              <a href="#">Bars</a>
+                              <a href="#">Cafes</a>
+                              <a href="#">Grocery Stores</a>
+                              <a href="#">Restaurants</a>
+                            </div>
+                            <h3>Recreation</h3>
+                            <div>
+                              <a href="#">Art Galleries</a>
+                              <a href="#">Fitness Clubs</a>
+                              <a href="#">Hotels</a>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <h3>Shopping</h3>
+                            <div>
+                              <a href="#">Books</a>
+                              <a href="#">Design</a>
+                              <a href="#">Fashion</a>
+                              <a href="#">Services</a>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <h3>Other</h3>
+                            <div>
+                              <a href="#">Neighbourhoods</a>
+                              <a href="#">City Guide</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                                  <li>
+                                    <span class="top-heading">City and Culture</span>
+                                    <i class="caret"></i>
+                                    <div class="dropdown offset300">
+                                      <div class="dd-inner">
+                                        <div class="column">
+                                          <h3>City</h3>
+                                          <div>
+                                            <a href="#">City</a>
+                                            <a href="#">Technology</a>
+                                            <a href="#">Sport & Play</a>
+                                          </div>
+                                        </div>
+                                        <div class="column">
+                                          <h3>Culture</h3>
+                                          <div>
+                                            <a href="#">Arts</a>
+                                            <a href="#">Music</a>
+                                            <a href="#">Fashion & Style</a>
+                                            <a href="#">Eat & Drink</a>
+                                            <a href="#">Film</a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li><a class="top-heading" href="/map">Map</a></li>
+
+
+                    <!-- HELLOR -->
+                </ul>
+            <!--</div>-->
+            <!-- /.navbar-collapse -->
+        <!--</div>-->
+        <!-- /.container -->
+    </nav>

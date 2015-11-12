@@ -33,8 +33,8 @@ mainApp.config(['$routeProvider',
         		templateUrl: 'partials/places.html',
         		controller: 'PlacesController'
       		}).
-					when('/login-page', {
-        		templateUrl: 'partials/login-page.html'
+					when('/cityNCulture', {
+        		templateUrl: 'partials/cityAndCulture.html'
       		}).
       		otherwise({
         		redirectTo: '/'

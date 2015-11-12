@@ -7,12 +7,16 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href='/css/style.css'>
 <link rel="stylesheet" href='/css/home-video.css'>
-<link rel="stylesheet" href='/css/sidebar.css'>
+<!--<link rel="stylesheet" href='/css/sidebar.css'>-->
 <link rel="stylesheet" href='/css/home-navigation.css'>
-<link rel="stylesheet" href='/css/login-page.css'>
+<link rel="stylesheet" href='/css/scrolling-nav.css'>
+<!--<link rel="stylesheet" href='/css/login-page.css'>-->
+<link rel="stylesheet" href='/css/ddmenu.css'>
 
+<script type="text/javascript" src="/js/ddmenu.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js"></script>
+
 
 <!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
